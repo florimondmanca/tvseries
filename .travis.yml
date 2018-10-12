@@ -1,0 +1,14 @@
+language: python
+
+python:
+  - "3.6"
+
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  # Database migrations
+  - python manage.py migrate
+
+script:
+  - python manage.py test

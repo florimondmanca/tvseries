@@ -11,3 +11,6 @@ __pycache__/
 # Virtual environments
 env/
 venv/
+
+# Django collected static files
+staticfiles/
