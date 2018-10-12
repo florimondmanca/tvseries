@@ -29,5 +29,6 @@ def search_show(title):
         for json_show in content["results"] :
             show = Show(json_show["id"], json_show["name"], icon_url + small_size + json_show["poster_path"])
             shows.append(show)
+    return shows
 
 
