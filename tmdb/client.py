@@ -1,6 +1,13 @@
-"""TMDB API client."""
+"""TMDB API client.
+
+Note
+----
+For looser coupling, external packages should probably use the
+shortcut functions defined in shortcuts.py.
+"""
 
 import os
+import warnings
 from datetime import datetime
 from typing import List, Union
 
@@ -160,8 +167,22 @@ def get_tmdb_client(api_key: str = None) -> TMDBClient:
     :param api_key: str, optional
         If not given, the API key is retrieved from the TMDB_API_KEY
         environment variable.
+        If the environment variable is not set, raises a warning.
     :return client: TMDBClient
+    :raises UserWarning:
+        If the TMDB_API_KEY environment variable is not set,
+        but it was used to build the client.
     """
     if api_key is None:
         api_key = os.getenv('TMDB_API_KEY')
+        if api_key is None:
+            message = (
+                'TMDB_API_KEY environment variable not set! Requests to '
+                'the TMDB API will most likely fail.'
+            )
+            warnings.warn(message)
     return TMDBClient(api_key=api_key)
+
+
+# Provide a default global TMDB client for convenience
+tmdb_client = get_tmdb_client()
