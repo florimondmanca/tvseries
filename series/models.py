@@ -10,7 +10,7 @@ User = get_user_model()
 class APIShow(models.Model):
     """Represents a show retrievable through the TMDB API.
 
-    An show is followed by zero, one or more users.
+    A show is followed by zero, one or more users.
     A user can follow (i.e. mark as favorite) zero, one or more shows.
 
     Usage
