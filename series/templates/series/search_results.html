@@ -1,7 +1,7 @@
 <h1>Search Result</h1>
 <ul>
 {% for show in shows_list %}
-    <li>{{ show.title }}</li>
+    <li><a href="{% url 'show_details' id=show.id%}">{{ show.title }}</a></li>
 {% empty %}
     <li>There are no shows corresponding to your search.</li>
 {% endfor %}
