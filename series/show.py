@@ -5,10 +5,7 @@ from typing import List
 
 @dataclass
 class Show:
-    """
-    Class to represent the details of a show
-
-    """
+    """Class to represent the details of a show."""
 
     id: int
     title: str
