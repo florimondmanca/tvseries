@@ -10,12 +10,11 @@ load_dotenv()
 
 TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 
-
 API_URL = "https://api.themoviedb.org/3/"
 language = "en-US"
 
 # to get images url : see https://developers.themoviedb.org/3/getting-started/images
-# TODO actually get these from configutaion/ API and not hardcode it
+# TODO actually get these from configuration/ API and not hardcode it
 ICON_URL = "https://image.tmdb.org/t/p/"
 small_size = "w154"
 big_size = "w300"
@@ -28,7 +27,7 @@ def search_show(title: str) -> List[Show]:
     :return: array of Show
     """
     endpoint = "search/tv"
-    # Here I nnly load the first page of results
+    # Here I only load the first page of results
     # TODO : add searching to more pages
     url = API_URL + endpoint
     resp = requests.get(url, params={"api_key":  TMDB_API_KEY, "language": language, "query": title, "page": 1})
