@@ -1,6 +1,7 @@
 """Views for series app."""
 
 from django.views.generic import FormView
+
 from series.forms import SearchSeriesForm
 
 
