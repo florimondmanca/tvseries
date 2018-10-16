@@ -1,26 +1,12 @@
 """TMDB API client."""
 
-import requests
-from .datatypes import Show
-from datetime import datetime
 import os
-from dotenv import load_dotenv
+from datetime import datetime
 from typing import List, Union
 
-load_dotenv()
+import requests
 
-
-def search_show(title: str) -> List[Show]:
-    return get_tmdb_client().search_show(title)
-
-
-def get_show_details(id: int) -> Show:
-    """Searches Api for the details of a show
-
-    :param id: id of the show in the APi
-    :return: a Show object
-    """
-    return get_tmdb_client().get_show_details(id)
+from .datatypes import Show
 
 
 class ShowParser:
@@ -74,7 +60,7 @@ class ShowParser:
 
     def _get_logo_path(self, poster_path: Union[str, None],
                        size_code: str) -> Union[str, None]:
-        """Build a full logo URL from the API's poster path and a size code.
+        """Build a full logo URL from the API poster path and a size code.
 
         For the documentation about image URLs in the TMDB API, see:
         https://developers.themoviedb.org/3/getting-started/images
@@ -156,7 +142,7 @@ class TMDBClient:
         shows = [parser.for_list(result) for result in content['results']]
         return shows
 
-    def get_show_details(self, show_id: int) -> Show:
+    def retrieve_show(self, show_id: int) -> Show:
         """Retrieve details of a show.
 
         :param show_id: id of the show in the API.

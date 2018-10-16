@@ -2,7 +2,7 @@
 from django.urls import reverse
 from django.views.generic import FormView, View
 from series.forms import SearchSeriesForm
-from tmdb.client import search_show
+from tmdb.shortcuts import search_shows
 from django.shortcuts import render
 
 
@@ -27,7 +27,7 @@ class SearchResultsView(View):
     template = 'series/search_results.html'
 
     def get(self, request, term: str):
-        shows = search_show(term)
+        shows = search_shows(term)
         return render(
             template_name='series/search_results.html',
             request=request,
