@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import APIShow
 
-# Register your models here.
+
+@admin.register(APIShow)
+class APIShowAdmin(admin.ModelAdmin):
+    """Admin panel for API shows."""

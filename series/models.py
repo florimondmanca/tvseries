@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class Show(models.Model):
+class APIShow(models.Model):
     """Represents a show retrievable through the TMDB API."""
 
     id = models.PositiveIntegerField(
