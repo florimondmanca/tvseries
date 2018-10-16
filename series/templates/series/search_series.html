@@ -1,0 +1,8 @@
+<h1>UpTV</h1>
+
+<h2>Never miss on your favorite shows.</h2>
+
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Search">
+</form>
