@@ -1,6 +1,6 @@
 import requests
 import json
-from .show import Show
+from .datatypes import Show
 from datetime import datetime
 import os
 from dotenv import load_dotenv

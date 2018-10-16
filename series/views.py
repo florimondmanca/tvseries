@@ -2,7 +2,7 @@
 from django.urls import reverse
 from django.views.generic import FormView, View
 from series.forms import SearchSeriesForm
-from series.APILibrary import search_show
+from tmdb.client import search_show
 from django.shortcuts import render
 
 
