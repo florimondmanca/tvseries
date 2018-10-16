@@ -33,3 +33,11 @@ $ python manage.py runserver
 - [Open a Pull Request](https://github.com/florimondmanca/uptv/compare): document the changes and provide any useful additional context.
 - Ask someone to review your code. 🔎🤝
 - When ready and tests pass: merge it!
+
+### Conventions
+
+These are conventions we recommend to apply throughout the project. They are being updated as we agree upon new conventions.
+
+#### View names
+
+Use underscore-separated view names: `search_series` instead of `search-series`.

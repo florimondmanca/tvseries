@@ -2,3 +2,4 @@ django>=2.1.2
 requests
 gunicorn
 python-dotenv
+Pillow  # required to use ImageField
