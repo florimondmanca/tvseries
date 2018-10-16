@@ -15,7 +15,9 @@ class SearchSeriesView(FormView):
     form_class = SearchSeriesForm
     success_url = '/'
 
+
 class SignUpView(CreateView):
+    """User registration form view."""
     model = User
     form_class = SignUpForm
     template_name = os.path.join('series', 'signup.html')

@@ -7,6 +7,7 @@ class SearchSeriesForm(forms.Form):
 
     search_term = forms.CharField(label='Search shows…', max_length=200)
 
+
 class SignUpForm(UserCreationForm):
     """Form for new user to sign up."""
     pass
