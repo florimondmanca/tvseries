@@ -14,3 +14,6 @@ venv/
 
 # Django collected static files
 staticfiles/
+
+# Private environment variables
+.env
