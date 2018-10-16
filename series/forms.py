@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
+from users.models import User
+
 
 class SearchSeriesForm(forms.Form):
     """Form to search for series."""
@@ -10,4 +12,6 @@ class SearchSeriesForm(forms.Form):
 
 class SignUpForm(UserCreationForm):
     """Form for new user to sign up."""
-    pass
+
+    class Meta(UserCreationForm.Meta):
+        model = User

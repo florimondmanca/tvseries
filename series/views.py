@@ -21,3 +21,5 @@ class SignUpView(CreateView):
     model = User
     form_class = SignUpForm
     template_name = os.path.join('series', 'signup.html')
+    success_url = '/'
+
