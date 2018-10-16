@@ -1,44 +1,17 @@
+"""TMDB API client."""
+
 import requests
-import json
 from .datatypes import Show
 from datetime import datetime
 import os
 from dotenv import load_dotenv
-from typing import List
+from typing import List, Union
 
 load_dotenv()
 
-TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 
-API_URL = "https://api.themoviedb.org/3/"
-language = "en-US"
-
-# to get images url : see https://developers.themoviedb.org/3/getting-started/images
-# TODO actually get these from configuration/ API and not hardcode it
-ICON_URL = "https://image.tmdb.org/t/p/"
-small_size = "w154"
-big_size = "w300"
-
-# TODO put this in a class and a whole lot a method for all getters that will also handle existence
 def search_show(title: str) -> List[Show]:
-    """Searches the title in the API to find corresponding tvshows
-
-    :param title: string
-    :return: array of Show
-    """
-    endpoint = "search/tv"
-    # Here I only load the first page of results
-    # TODO : add searching to more pages
-    url = API_URL + endpoint
-    resp = requests.get(url, params={"api_key":  TMDB_API_KEY, "language": language, "query": title, "page": 1})
-    shows = []
-    resp.raise_for_status()
-    content = resp.json()
-    for json_show in content["results"]:
-        show = Show(id=json_show["id"], title=json_show["name"],
-                    small_logo_path=ICON_URL + small_size + json_show["poster_path"])
-        shows.append(show)
-    return shows
+    return get_tmdb_client().search_show(title)
 
 
 def get_show_details(id: int) -> Show:
@@ -47,24 +20,162 @@ def get_show_details(id: int) -> Show:
     :param id: id of the show in the APi
     :return: a Show object
     """
-    endpoint = "tv/" + str(id)
-    url = API_URL + endpoint
-    resp = requests.get(url, params={"api_key": TMDB_API_KEY, "language": language})
-    resp.raise_for_status()
-    content = resp.json()
-    title: str = content["name"]
-    small_logo: str = ICON_URL + small_size + content["poster_path"]
-    big_logo: str = ICON_URL + big_size + content["poster_path"]
-    directors: List[str] = [director["name"] for director in content["created_by"]]
-    creation_date: datetime = datetime.strptime(content["first_air_date"], "%Y-%m-%d")
-    genres: List[str] = [genre["name"] for genre in content["genres"]]
-    last_episode_date: datetime = datetime.strptime(content["last_air_date"], "%Y-%m-%d")
-    if content["next_episode_to_air"] is not None:
-        next_episode_date: datetime = datetime.strptime(content["next_episode_to_air"]["air_date"], "%Y-%m-%d")
-    else:
-        next_episode_date = None
-    synopsis = content["overview"]
-    return Show(id=id, title=title, small_logo_path=small_logo, big_logo_path=big_logo,
-                synopsis=synopsis, directors=directors, genres=genres, creation_date=creation_date,
-                last_episode_date=last_episode_date, next_episode_date=next_episode_date)
+    return get_tmdb_client().get_show_details(id)
 
+
+class ShowParser:
+    """Convert raw show API data to actual Show objects."""
+
+    ICON_URL = 'https://image.tmdb.org/t/p/'
+    SMALL_SIZE = 'w154'
+    BIG_SIZE = 'w300'
+
+    def for_list(self, data: dict) -> Show:
+        """Build a Show object suited for displaying in lists.
+
+        :param data: dict
+            Dictionary containing raw API data about the show.
+        :return show: Show
+        """
+        return Show(**self._get_common_kwargs(data))
+
+    def for_detail(self, data: dict) -> Show:
+        """Build a Show object with all its details.
+
+        :param data: dict
+            Dictionary containing raw API data about the show.
+        :return show: Show
+        """
+        return Show(
+            **self._get_common_kwargs(data),
+            synopsis=data['overview'],
+            big_logo_path=self._get_big_logo_path(data['poster_path']),
+            genres=[genre['name'] for genre in data['genres']],
+            directors=[director['name'] for director in data['created_by']],
+            creation_date=self._parse_date(data['first_air_date']),
+            last_episode_date=self._parse_date(data['last_air_date']),
+            next_episode_date=self._parse_date(data['next_episode_to_air']),
+        )
+
+    def _get_common_kwargs(self, data: dict) -> dict:
+        """Return Show arguments common to list and detail parsers."""
+        return {
+            'id': data['id'],
+            'title': data['name'],
+            'small_logo_path': self._get_small_logo_path(data['poster_path']),
+        }
+
+    @staticmethod
+    def _parse_date(date: Union[str, None]) -> datetime.date:
+        """Parse a date (which might be null) as returned by the API."""
+        if date is None:
+            return None
+        return datetime.strptime(date, '%Y-%m-%D')
+
+    def _get_logo_path(self, poster_path: Union[str, None],
+                       size_code: str) -> Union[str, None]:
+        """Build a full logo URL from the API's poster path and a size code.
+
+        For the documentation about image URLs in the TMDB API, see:
+        https://developers.themoviedb.org/3/getting-started/images
+        """
+        if poster_path is not None:
+            return self.ICON_URL + size_code + poster_path
+        else:
+            return None
+
+    def _get_small_logo_path(self, poster_path):
+        return self._get_logo_path(poster_path, size_code=self.SMALL_SIZE)
+
+    def _get_big_logo_path(self, poster_path):
+        return self._get_logo_path(poster_path, size_code=self.BIG_SIZE)
+
+
+class TMDBClient:
+    """Client for interacting with the TMDB API."""
+
+    LANGUAGE = 'en-US'
+    ROOT_URL = 'https://api.themoviedb.org/3'
+
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+
+    def _build_url(self, endpoint: str) -> str:
+        """Build the full URL from an endpoint.
+
+        Example:
+        _build_url('search/tv') -> 'https://api.themoviedb.org/3/search/tv'
+        """
+        parts = (self.ROOT_URL, endpoint)
+        return '/'.join(part.strip('/') for part in parts)
+
+    def _request(self, endpoint: str, params: dict = None,
+                 raise_for_status: bool = True) -> requests.Response:
+        """Perform a request to the API.
+
+        :param endpoint: str
+        :param params: dict
+            GET parameters passed to the underlying call to `requests.get()`.
+        :param raise_for_status: bool, optional
+            If True (the default), an exception is raised if the response
+            has an error status code (400 or greater).
+            See Requests' full documentation on status codes:
+            http://docs.python-requests.org/en/master/user/quickstart/#response-status-codes
+        :returns response
+        """
+        if params is None:
+            params = {}
+
+        # Attach the API key and language if not given
+        params.setdefault('api_key', self.api_key)
+        params.setdefault('language', self.LANGUAGE)
+
+        url = self._build_url(endpoint)
+        resp = requests.get(url, params=params)
+
+        if raise_for_status:
+            resp.raise_for_status()
+
+        return resp
+
+    def search_show(self, title: str) -> List[Show]:
+        """Search the title in the API to find corresponding TV shows.
+
+        Note: only the first page of results is returned; support for
+        pagination could be added in the future.
+
+        :param title: string
+        :return: list of Show objects
+        """
+        resp = self._request('search/tv', {
+            'query': title,
+            'page': 1,
+        })
+        content: dict = resp.json()
+        parser = ShowParser()
+        shows = [parser.for_list(result) for result in content['results']]
+        return shows
+
+    def get_show_details(self, show_id: int) -> Show:
+        """Retrieve details of a show.
+
+        :param show_id: id of the show in the API.
+        :return: a Show object
+        """
+        resp = self._request(f'tv/{show_id}')
+        data: dict = resp.json()
+        parser = ShowParser()
+        return parser.for_detail(data)
+
+
+def get_tmdb_client(api_key: str = None) -> TMDBClient:
+    """Build and return a TMDB client.
+
+    :param api_key: str, optional
+        If not given, the API key is retrieved from the TMDB_API_KEY
+        environment variable.
+    :return client: TMDBClient
+    """
+    if api_key is None:
+        api_key = os.getenv('TMDB_API_KEY')
+    return TMDBClient(api_key=api_key)
