@@ -44,5 +44,5 @@ class ShowDetailsView(View):
         return render(
             template_name='series/show_details.html',
             request=request,
-            context={'show': show, 'directors': ", ".join(show.directors), 'genres': ", ".join(show.genres)}
+            context={'show': show}
         )
