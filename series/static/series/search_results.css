@@ -1,0 +1,24 @@
+
+.boxes {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(auto-fill, 1fr);
+  grid-row-gap: 30px;
+  grid-column-gap: 30px;
+}
+
+.boxes .box {
+    padding: 5px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    text-align: center;
+}
+
+a:hover {
+    background-color: #c9dce8;
+}
+

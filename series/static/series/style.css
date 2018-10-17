@@ -1,0 +1,71 @@
+body, html {
+	margin-left: 50px;
+	margin-right: 50px;
+	font-family: Verdana, Geneva, sans-serif;
+
+}
+
+.header > span {
+    font-size: 15px;
+}
+
+.header {
+	font-family: "Courier New", sans-serif;
+	display: grid;
+	grid-gap: 10px;
+	width: 200px;
+}
+
+.header-right {
+	grid-column: 2;
+	grid-row: 1;
+    width: 150px;
+	text-align: justify;
+	vertical-align: auto;
+}
+
+.header-left {
+	grid-column: 1;
+	grid-row: 1;
+	width: 100px;
+	text-align: right;
+	vertical-align: middle;
+}
+
+#show {
+	font-variant: small-caps;
+	font-size: 58px;
+	text-align: center;
+	horiz-align: center;
+	line-height: 0.75em;
+}
+
+ul.navbar {
+	text-align: center;
+	text-transform: uppercase;
+	list-style-type: none;
+    margin-top: 0.8em;
+}
+
+li.tab {
+	display: inline;
+}
+
+li.tab > a {
+	text-decoration: none;
+	color: black;
+	margin-right: 20px;
+	margin-left: 20px;
+}
+
+li.tab > a:hover {
+	border-bottom: 3px solid #f27981;
+}
+
+#active {
+	border-bottom: 3px solid #ef2734;
+}
+
+h1 {
+    text-align: center
+}

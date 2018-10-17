@@ -1,6 +1,28 @@
-<h1>UpTV</h1>
+{% load static %}
 
-<h2>Never miss on your favorite shows.</h2>
+<link rel="stylesheet" type="text/css" href="{% static 'series/style.css' %}">
+
+<!--Navigation bar-->
+<ul class="navbar">
+    <li class="tab"><a href="{% url 'search_series'%}" id="active">Search</a></li>
+    <li class="tab"><a href="{% url 'search_series'%}">Favorite shows</a></li> <!--TODO link to favorite shows page-->
+    <li class="tab"><a href="{% url 'search_series'%}">Profile</a></li> <!--TODO link to profile page-->
+    <li class="tab"><a href="{% url 'search_series'%}">About</a></li> <!--TODO link to about page-->
+</ul>
+
+<div class="header">
+    <div class="header-left">
+        <img  src="{% static 'series/uptv_logo.png' %}">
+    </div>
+    <div class="header-right">
+        <span>Never miss on</span> <br/>
+        <span>your favorite</span> <br/>
+        <span id="show">shows</span>
+    </div>
+</div>
+
+
+<h1>Search</h1>
 
 <form method="post">{% csrf_token %}
     {{ form.as_p }}
