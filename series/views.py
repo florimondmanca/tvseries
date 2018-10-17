@@ -2,7 +2,7 @@
 from django.urls import reverse
 from django.views.generic import FormView, View
 from series.forms import SearchSeriesForm
-from series.APILibrary import search_show
+from series.APILibrary import search_show, get_show_details
 from django.shortcuts import render
 
 
@@ -31,5 +31,18 @@ class SearchResultsView(View):
         return render(
             template_name='series/search_results.html',
             request=request,
-            context={'shows_list': shows}
+            context={'shows_list': shows, 'search_term': term}
+        )
+
+
+class ShowDetailsView(View):
+    """Details of a show"""
+    template = 'series/show_details.html'
+
+    def get(self, request, id: int):
+        show = get_show_details(id)
+        return render(
+            template_name='series/show_details.html',
+            request=request,
+            context={'show': show}
         )
