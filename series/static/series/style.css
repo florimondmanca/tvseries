@@ -47,18 +47,18 @@ ul.navbar {
     margin-top: 0.8em;
 }
 
-li.onglet {
+li.tab {
 	display: inline;
 }
 
-li.onglet > a {
+li.tab > a {
 	text-decoration: none;
 	color: black;
 	margin-right: 20px;
 	margin-left: 20px;
 }
 
-li.onglet > a:hover {
+li.tab > a:hover {
 	border-bottom: 3px solid #f27981;
 }
 
