@@ -31,7 +31,7 @@ class SearchResultsView(View):
         return render(
             template_name='series/search_results.html',
             request=request,
-            context={'shows_list': shows}
+            context={'shows_list': shows, 'search_term': term}
         )
 
 
