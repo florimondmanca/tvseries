@@ -31,8 +31,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'series.apps.SeriesConfig',
     'users.apps.UsersConfig',
+    'series.apps.SeriesConfig',
+    'tmdb.apps.TmdbConfig',
+    'alerts.apps.AlertsConfig',
 ]
 
 MIDDLEWARE = [
