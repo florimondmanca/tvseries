@@ -20,23 +20,23 @@ class BaseShowParser(Parser[Show]):
     SMALL_SIZE = 'w154'
     BIG_SIZE = 'w300'
 
-    def _get_logo_path(self, poster_path: Union[str, None],
-                       size_code: str) -> Union[str, None]:
+    def _get_logo_path(self, data: dict, size_code: str) -> Union[str, None]:
         """Build a full logo URL from the API poster path and a size code.
 
         For the documentation about image URLs in the TMDB API, see:
         https://developers.themoviedb.org/3/getting-started/images
         """
+        poster_path = data['poster_path']
         if poster_path is not None:
             return self.ICON_URL + size_code + poster_path
         else:
             return None
 
-    def _get_small_logo_path(self, poster_path):
-        return self._get_logo_path(poster_path, size_code=self.SMALL_SIZE)
+    def _get_small_logo_path(self, data: dict):
+        return self._get_logo_path(data, size_code=self.SMALL_SIZE)
 
-    def _get_big_logo_path(self, poster_path):
-        return self._get_logo_path(poster_path, size_code=self.BIG_SIZE)
+    def _get_big_logo_path(self, data: dict):
+        return self._get_logo_path(data, size_code=self.BIG_SIZE)
 
     @staticmethod
     def _parse_date(date: Union[str, None]) -> datetime.date:
@@ -53,23 +53,27 @@ class ShowListParser(BaseShowParser):
         return {
             'id': data['id'],
             'title': data['name'],
-            'small_logo_path': self._get_small_logo_path(data['poster_path']),
+            'small_logo_path': self._get_small_logo_path(data),
         }
 
 
 class ShowDetailParser(ShowListParser):
     """Parser of Show objects with all their details."""
 
+    def _get_next_episode_date(self, data: dict) -> Union[datetime.date, None]:
+        next_episode: dict = data['next_episode_to_air'] or {}
+        return self._parse_date(next_episode.get('air_date'))
+
     def get_kwargs(self, data: dict) -> dict:
         return {
             **super().get_kwargs(data),
             'synopsis': data['overview'],
-            'big_logo_path': self._get_big_logo_path(data['poster_path']),
+            'big_logo_path': self._get_big_logo_path(data),
             'genres': [genre['name'] for genre in data['genres']],
             'directors': [director['name'] for director in data['created_by']],
             'creation_date': self._parse_date(data['first_air_date']),
             'last_episode_date': self._parse_date(data['last_air_date']),
-            'next_episode_date': self._parse_date(data['next_episode_to_air']),
+            'next_episode_date': self._get_next_episode_date(data),
         }
 
 
