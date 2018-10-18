@@ -12,6 +12,7 @@ from typing import List
 
 import requests
 
+from tmdb.pagination import collect_paginated_results
 from .parsers.shows import ShowParser
 from .datatypes import Show
 
@@ -96,6 +97,23 @@ class TMDBClient:
         data: dict = resp.json()
         parser = self._get_show_parser()
         return parser.for_detail(data)
+
+    def get_airing_today_ids(self) -> List[int]:
+        """Retrieve IDs of shows airing today.
+
+        Notes
+        -----
+        Results from the TMDB API are paginated (20 items/page),
+        so one request per page is performed to retrieve the complete list.
+        As a result, calling this method is typically slow (1s per page).
+        """
+        return collect_paginated_results(
+            fetch_page=lambda page: self._request('tv/airing_today', {
+                'page': page
+            }),
+            total_pages=lambda data: data['total_pages'],
+            extract=lambda data: [show['id'] for show in data['results']],
+        )
 
 
 def get_tmdb_client(api_key: str = None) -> TMDBClient:
