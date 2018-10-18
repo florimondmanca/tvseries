@@ -1,0 +1,14 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'users/style.css' %}">
+
+{% if faved_series_list %}
+    <ul>
+    {% for show in faved_series_list %}
+        <!--'series:details' needs to be updated depending on how details of a show are displayed-->
+        <li>{{ show.title }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No series are available.</p>
+{% endif %}
