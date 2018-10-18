@@ -19,7 +19,6 @@ class AlertsConfig(AppConfig):
         # It's probably fine and will not happen in production.
         # See:
         # https://stackoverflow.com/questions/33814615/how-to-avoid-appconfig-ready-method-running-twice-in-django
-
         if settings.ACTIVE:
             worker = AlertWorker()
             worker.start()
