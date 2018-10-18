@@ -9,7 +9,7 @@ shortcut functions defined in shortcuts.py.
 import os
 import warnings
 from datetime import datetime
-from typing import List, Union
+from typing import List, Union, Type
 
 import requests
 
@@ -90,6 +90,8 @@ class TMDBClient:
     LANGUAGE = 'en-US'
     ROOT_URL = 'https://api.themoviedb.org/3'
 
+    show_parser_class: Type[ShowParser] = ShowParser
+
     def __init__(self, api_key: str):
         self.api_key = api_key
 
@@ -131,6 +133,9 @@ class TMDBClient:
 
         return resp
 
+    def _get_show_parser(self) -> ShowParser:
+        return self.show_parser_class()
+
     def search_show(self, title: str) -> List[Show]:
         """Search the title in the API to find corresponding TV shows.
 
@@ -145,7 +150,7 @@ class TMDBClient:
             'page': 1,
         })
         content: dict = resp.json()
-        parser = ShowParser()
+        parser = self._get_show_parser()
         shows = [parser.for_list(result) for result in content['results']]
         return shows
 
@@ -157,7 +162,7 @@ class TMDBClient:
         """
         resp = self._request(f'tv/{show_id}')
         data: dict = resp.json()
-        parser = ShowParser()
+        parser = self._get_show_parser()
         return parser.for_detail(data)
 
 
