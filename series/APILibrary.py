@@ -19,7 +19,7 @@ ICON_URL = "https://image.tmdb.org/t/p/"
 small_size = "w154"
 big_size = "w300"
 
-
+# TODO put this in a class and a whole lot a method for all getters that will also handle existence
 def search_show(title: str) -> List[Show]:
     """Searches the title in the API to find corresponding tvshows
 
