@@ -1,87 +1,19 @@
 """TMDB API client.
 
-Note
-----
+Notes
+-----
 For looser coupling, external packages should probably use the
 shortcut functions defined in shortcuts.py.
 """
 
 import os
 import warnings
-from datetime import datetime
-from typing import List, Union, Type
+from typing import List
 
 import requests
 
+from .parsers.shows import ShowParser
 from .datatypes import Show
-
-
-class ShowParser:
-    """Convert raw show API data to actual Show objects."""
-
-    ICON_URL = 'https://image.tmdb.org/t/p/'
-    SMALL_SIZE = 'w154'
-    BIG_SIZE = 'w300'
-
-    def for_list(self, data: dict) -> Show:
-        """Build a Show object suited for displaying in lists.
-
-        :param data: dict
-            Dictionary containing raw API data about the show.
-        :return show: Show
-        """
-        return Show(**self._get_common_kwargs(data))
-
-    def for_detail(self, data: dict) -> Show:
-        """Build a Show object with all its details.
-
-        :param data: dict
-            Dictionary containing raw API data about the show.
-        :return show: Show
-        """
-        return Show(
-            **self._get_common_kwargs(data),
-            synopsis=data['overview'],
-            big_logo_path=self._get_big_logo_path(data['poster_path']),
-            genres=[genre['name'] for genre in data['genres']],
-            directors=[director['name'] for director in data['created_by']],
-            creation_date=self._parse_date(data['first_air_date']),
-            last_episode_date=self._parse_date(data['last_air_date']),
-            next_episode_date=self._parse_date(data['next_episode_to_air']),
-        )
-
-    def _get_common_kwargs(self, data: dict) -> dict:
-        """Return Show arguments common to list and detail parsers."""
-        return {
-            'id': data['id'],
-            'title': data['name'],
-            'small_logo_path': self._get_small_logo_path(data['poster_path']),
-        }
-
-    @staticmethod
-    def _parse_date(date: Union[str, None]) -> datetime.date:
-        """Parse a date (which might be null) as returned by the API."""
-        if date is None:
-            return None
-        return datetime.strptime(date, '%Y-%m-%D')
-
-    def _get_logo_path(self, poster_path: Union[str, None],
-                       size_code: str) -> Union[str, None]:
-        """Build a full logo URL from the API poster path and a size code.
-
-        For the documentation about image URLs in the TMDB API, see:
-        https://developers.themoviedb.org/3/getting-started/images
-        """
-        if poster_path is not None:
-            return self.ICON_URL + size_code + poster_path
-        else:
-            return None
-
-    def _get_small_logo_path(self, poster_path):
-        return self._get_logo_path(poster_path, size_code=self.SMALL_SIZE)
-
-    def _get_big_logo_path(self, poster_path):
-        return self._get_logo_path(poster_path, size_code=self.BIG_SIZE)
 
 
 class TMDBClient:
@@ -90,7 +22,7 @@ class TMDBClient:
     LANGUAGE = 'en-US'
     ROOT_URL = 'https://api.themoviedb.org/3'
 
-    show_parser_class: Type[ShowParser] = ShowParser
+    show_parser_class = ShowParser
 
     def __init__(self, api_key: str):
         self.api_key = api_key
