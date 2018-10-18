@@ -14,4 +14,4 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         """Represent the user by their full name, or email, or ID."""
-        return self.get_full_name() or self.email or self.pk
+        return self.get_full_name() or self.email or str(self.pk)
