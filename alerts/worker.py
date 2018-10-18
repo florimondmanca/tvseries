@@ -20,9 +20,6 @@ class AlertWorker(threading.Thread):
     period_seconds = ONE_DAY
     _logger = logging.getLogger('alerts')
 
-    def __init__(self):
-        super().__init__()
-
     @staticmethod
     def main_thread_is_alive() -> bool:
         """Check if the main thread is still running.
