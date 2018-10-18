@@ -104,6 +104,33 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = 'accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
+# Logging
+# https://docs.djangoproject.com/fr/2.1/topics/logging/#examples
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'alerts': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
