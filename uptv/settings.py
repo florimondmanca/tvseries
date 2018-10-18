@@ -106,6 +106,10 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = 'accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
+# Alerts config
+# NOTE: a non-empty value for the env variable is considered as True
+ALERTS_ACTIVE = os.getenv('ALERTS_ACTIVE', False)
+
 # Logging
 # https://docs.djangoproject.com/fr/2.1/topics/logging/#examples
 LOGGING = {
