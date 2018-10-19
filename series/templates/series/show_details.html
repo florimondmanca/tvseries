@@ -1,20 +1,23 @@
-
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'series/show_details.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'series/style.css' %}">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="{% static 'series/subscription.js' %}"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+      integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
 <!--Navigation bar-->
 <ul class="navbar">
-    <li class="tab"><a href="{% url 'search_series'%}" id="active">Search</a></li>
-    <li class="tab"><a href="{% url 'search_series'%}">Favorite shows</a></li> <!--TODO link to favorite shows page-->
-    <li class="tab"><a href="{% url 'search_series'%}">Profile</a></li> <!--TODO link to profile page-->
-    <li class="tab"><a href="{% url 'search_series'%}">About</a></li> <!--TODO link to about page-->
+    <li class="tab"><a href="{% url 'search_series' %}" id="active">Search</a></li>
+    <li class="tab"><a href="{% url 'search_series' %}">Favorite shows</a></li> <!--TODO link to favorite shows page-->
+    <li class="tab"><a href="{% url 'search_series' %}">Profile</a></li> <!--TODO link to profile page-->
+    <li class="tab"><a href="{% url 'search_series' %}">About</a></li> <!--TODO link to about page-->
 </ul>
 
-<div class = "header">
+<div class="header">
     <div class="header-left">
-        <img  src="{% static 'series/uptv_logo.png' %}">
+        <img src="{% static 'series/uptv_logo.png' %}">
     </div>
     <div class="header-right">
         <span>Never miss on</span> </br>
@@ -32,16 +35,32 @@
 
     <div class="right">
         <ul>
-            <li> <span class="title">Created by </span> {{ show.directors|join:', ' }}</li>
-            <li> <span class="title">First released on </span> {{ show.creation_date }}</li>
-            <li> <span class="title">Genres : </span> {{ show.genres|join:', ' }}</li>
-            <li> <span class="title">Synopsis : </span> {{ show.synopsis }}</li>
-            <li> <span class="title">Last episode : </span> {{ show.last_episode_date }}</li>
+            <li><span class="title">Created by </span> {{ show.directors|join:', ' }}</li>
+            <li><span class="title">First released on </span> {{ show.creation_date }}</li>
+            <li><span class="title">Genres : </span> {{ show.genres|join:', ' }}</li>
+            <li><span class="title">Synopsis : </span> {{ show.synopsis }}</li>
+            <li><span class="title">Last episode : </span> {{ show.last_episode_date }}</li>
             {% if show.next_episode_date %}
-                <li> <span class="title">Next episode : </span> {{ show.next_episode_date }}</li>
+                <li><span class="title">Next episode : </span> {{ show.next_episode_date }}</li>
             {% else %}
-                <li> <span class="title">Next episode : </span> No future episode planned</li>
+                <li><span class="title">Next episode : </span> No future episode planned</li>
             {% endif %}
         </ul>
+
+        {% if user.is_authenticated %}
+            <i  id="star"
+                        class="{% if is_subscribed %}fas{% else %}far {% endif %} fa-star fa-2x"
+
+                        onclick="toggle_subscribe({{ show.id }}, {{ is_subscribed|yesno:"true,false" }})"></i>
+
+            <span>Subscribe/Unsubscribe to this show</span>
+        {% else %}
+
+            {% url 'show_details' show.id as redirect_url %}
+            <p><a href="{% url 'login' %}?next={{ redirect_url }}">Login</a> to subscribe to this show and be notified
+                of brand new episodes !</p>
+
+        {% endif %}
+
     </div>
 </div>
