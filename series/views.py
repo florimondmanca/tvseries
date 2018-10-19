@@ -2,11 +2,10 @@
 from django.urls import reverse
 from django.views.generic import FormView, View
 from series.forms import SearchSeriesForm
-from series.APILibrary import search_show, get_show_details
+from tmdb.shortcuts import search_shows, retrieve_show
 from django.shortcuts import render
 from django.http import HttpResponse
 from series.models import APIShow
-from django.contrib.auth import get_user_model
 
 
 # Create your views here.
@@ -30,7 +29,7 @@ class SearchResultsView(View):
     template = 'series/search_results.html'
 
     def get(self, request, term: str):
-        shows = search_show(term)
+        shows = search_shows(term)
         return render(
             template_name='series/search_results.html',
             request=request,
@@ -43,7 +42,7 @@ class ShowDetailsView(View):
     template = 'series/show_details.html'
 
     def get(self, request, id: int):
-        show = get_show_details(id)
+        show = retrieve_show(id)
         try:
             if request.user.is_authenticated:
                 sub = APIShow.objects.filter(pk=id, followers=request.user).exists()

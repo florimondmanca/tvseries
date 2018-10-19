@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 # Create your models here.
-from series.APILibrary import get_show_details
+from tmdb.shortcuts import retrieve_show
 
 User = get_user_model()
 
@@ -11,7 +11,7 @@ User = get_user_model()
 class APIShowManager(models.Manager):
 
     def create_from_api(self, show_id: int) -> 'APIShow':
-        show = get_show_details(show_id)
+        show = retrieve_show(show_id)
         return self.create(id=show.id,
                            title=show.title,
                            description=show.synopsis)
