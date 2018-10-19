@@ -36,12 +36,12 @@
     <div class="right">
         <ul>
             <li><span class="title">Created by </span> {{ show.directors|join:', ' }}</li>
-            <li><span class="title">First released on </span> {{ show.creation_date }}</li>
+            <li><span class="title">First released on </span> {{ show.creation_date|date }}</li>
             <li><span class="title">Genres : </span> {{ show.genres|join:', ' }}</li>
             <li><span class="title">Synopsis : </span> {{ show.synopsis }}</li>
-            <li><span class="title">Last episode : </span> {{ show.last_episode_date }}</li>
+            <li><span class="title">Last episode : </span> {{ show.last_episode_date|date }}</li>
             {% if show.next_episode_date %}
-                <li><span class="title">Next episode : </span> {{ show.next_episode_date }}</li>
+                <li><span class="title">Next episode : </span> {{ show.next_episode_date|date }}</li>
             {% else %}
                 <li><span class="title">Next episode : </span> No future episode planned</li>
             {% endif %}
