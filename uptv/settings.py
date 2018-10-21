@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'series.apps.SeriesConfig',
     'users.apps.UsersConfig',
+    'tmdb.apps.TmdbConfig',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+# TMDB configuration
+TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
