@@ -25,6 +25,12 @@ Start development server:
 $ python manage.py runserver
 ```
 
+### Settings
+
+The following settings are available and can be defined in a git-ignored `.env` file located at the root of your project directory:
+
+- `TMDB_API_KEY`: will be used to retrieve and search TV shows on the TheMovieDatabase (TMDB) API. Acquiring an API key requires to create a (free) TMDB account. Please refer to the API's [Getting Started guide](https://developers.themoviedb.org/3/getting-started/introduction) for how to create an API key.
+
 ## Contributing
 
 - Create a branch, e.g. `feature/awesome-feature` or `fix/very-nasty-bug`.
