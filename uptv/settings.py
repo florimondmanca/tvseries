@@ -111,7 +111,6 @@ LOGIN_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/fr/2.1/topics/email/
 EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
-SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
