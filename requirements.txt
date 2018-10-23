@@ -3,3 +3,4 @@ requests
 gunicorn
 python-dotenv
 Pillow  # required to use ImageField
+whitenoise  # service of static files in production
