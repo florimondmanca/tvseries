@@ -1,4 +1,6 @@
 """Views for series app."""
+from typing import Union, Optional
+
 from django.urls import reverse
 from django.views.generic import FormView, View
 from series.forms import SearchSeriesForm
@@ -43,11 +45,24 @@ class ShowDetailsView(View):
 
     def get(self, request, id: int):
         show = retrieve_show(id)
-        sub = APIShow.objects.follows(show_id=id, user=request.user)
+        api_show: Optional[APIShow] = APIShow.objects.filter(pk=id).first()
+
+        if api_show is not None:
+            num_followers = api_show.num_followers
+            is_subscribed = api_show.is_followed_by(request.user)
+        else:
+            num_followers = 0
+            is_subscribed = False
+
         return render(
             template_name='series/show_details.html',
             request=request,
-            context={'show': show, 'is_subscribed': sub, 'user': request.user}
+            context={
+                'show': show,
+                'is_subscribed': is_subscribed,
+                'user': request.user,
+                'num_followers': num_followers,
+            }
         )
 
 

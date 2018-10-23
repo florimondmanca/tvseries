@@ -76,6 +76,17 @@ class APIShow(models.Model):
         help_text='Users that will receive alerts about this show.',
     )
 
+    def is_followed_by(self, user: User) -> bool:
+        """Return whether a user follows this show.
+
+        :param user : User
+            A user object, which may or may not be authenticated.
+        :return follows : bool
+        """
+        if user.is_authenticated:
+            return self.followers.filter(id=user.pk).exists()
+        return False
+
     @property
     def num_followers(self) -> int:
         """Get the number of users following this show."""
