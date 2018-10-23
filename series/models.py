@@ -18,21 +18,6 @@ class APIShowManager(models.Manager):
                            title=show.title,
                            description=show.synopsis)
 
-    def follows(self, show_id: int, user: User) -> bool:
-        """Return whether a user follows a show given by ID.
-
-        :param user : User
-            A user object, which may or may not be authenticated.
-        :param show_id : int
-            The unique identifier for the show,
-            (which might not be in database yet.)
-        :return follows : bool
-        """
-        if user.is_authenticated:
-            qs = self.get_queryset()
-            return qs.filter(pk=show_id, followers__id=user.pk).exists()
-        return False
-
 
 class APIShow(models.Model):
     """Represents a show retrievable through the TMDB API.
