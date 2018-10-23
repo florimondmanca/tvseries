@@ -4,8 +4,7 @@
 
 {% if faved_series_list %}
     <ul>
-    {% for show in faved_series_list %}
-        <!--'series:details' needs to be updated depending on how details of a show are displayed-->
+    {% for show in followed_series_list %}
         <li>{{ show.title }}</li>
     {% endfor %}
     </ul>
