@@ -1,5 +1,5 @@
-/** Manage a counter of followers. */
-class FollowerCounter {
+/** Manage a counter. */
+class Counter {
 
     constructor(elementId) {
         this.elementId = elementId;

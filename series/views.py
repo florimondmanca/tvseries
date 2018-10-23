@@ -49,17 +49,17 @@ class ShowDetailsView(View):
 
         if api_show is not None:
             num_followers = api_show.num_followers
-            is_subscribed = api_show.is_followed_by(request.user)
+            follows = api_show.is_followed_by(request.user)
         else:
             num_followers = 0
-            is_subscribed = False
+            follows = False
 
         return render(
             template_name='series/show_details.html',
             request=request,
             context={
                 'show': show,
-                'is_subscribed': is_subscribed,
+                'follows': follows,
                 'user': request.user,
                 'num_followers': num_followers,
             }

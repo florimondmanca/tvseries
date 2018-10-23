@@ -3,8 +3,8 @@
 <link rel="stylesheet" type="text/css" href="{% static 'series/show_details.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'series/style.css' %}">
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-<script type="text/javascript" src="{% static 'series/subscription.js' %}"></script>
-<script type="text/javascript" src="{% static 'series/followerCounter.js' %}"></script>
+<script type="text/javascript" src="{% static 'series/followManager.js' %}"></script>
+<script type="text/javascript" src="{% static 'series/counter.js' %}"></script>
 <script type="text/javascript" src="{% static 'series/csrf.js' %}"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
       integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
@@ -36,12 +36,6 @@
     </div>
 
     <div class="right">
-        <p class="follower-count-container">
-            <span id="follower-count">
-                {{ num_followers }}
-            </span>
-            followers
-        </p>
         <ul>
             <li>
                 <span class="title">Created by:</span>
@@ -72,10 +66,17 @@
             </li>
         </ul>
 
+        <p class="follower-count-container">
+            <span id="follower-count">
+                {{ num_followers }}
+            </span>
+            followers
+        </p>
+
         {% if user.is_authenticated %}
             <i id="star"
-               class="{% if is_subscribed %}fas{% else %}far {% endif %} fa-star fa-2x"
-               onclick="subscriber.toggle({{ show.id }})"></i>
+               class="{% if follows %}fas{% else %}far{% endif %} fa-star fa-2x"
+               onclick="manager.toggle({{ show.id }})"></i>
             <span>Subscribe/Unsubscribe to this show</span>
         {% else %}
 
@@ -89,8 +90,8 @@
 </div>
 
 <script type="text/javascript">
-    const followerCounter = new FollowerCounter('follower-count');
-    const subscriber = new Subscriber('star', {{  is_subscribed|yesno:'true,false' }});
-    subscriber.onSubscribe(() => followerCounter.increment());
-    subscriber.onUnsubscribe(() => followerCounter.decrement());
+    const counter = new Counter('follower-count');
+    const manager = new FollowManager('star', {{  follows|yesno:'true,false' }});
+    manager.onFollow(() => counter.increment());
+    manager.onUnFollow(() => counter.decrement());
 </script>

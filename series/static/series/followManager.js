@@ -1,32 +1,38 @@
-/** Manage the subscription state.
+/** Manage the following state.
  * Make use of the Observer pattern to allow other clients to subscribe
- * to "subscribed"/"unsubscribed" events.
+ * to "followed"/"unfollowed" events.
  */
-class Subscriber {
+
+const EVENTS = {
+    FOLLOWED: 'followed',
+    UNFOLLOWED: 'unfollowed',
+};
+
+class FollowManager {
 
     constructor(starId, initial) {
         this.starId = starId;
-        this._subscribed = initial;
+        this._following = initial;
         this._callbacks = {
-            subscribe: [],
-            unsubscribe: [],
+            [EVENTS.FOLLOWED]: [],
+            [EVENTS.UNFOLLOWED]: [],
         };
-        this.onSubscribe(() => {
+        this.onFollow(() => {
             this._toggleClasses();
-            this._subscribed = true;
+            this._following = true;
         });
-        this.onUnsubscribe(() => {
+        this.onUnFollow(() => {
             this._toggleClasses();
-            this._subscribed = false;
+            this._following = false;
         });
     }
 
     /** Toggle the subscribed state. */
     toggle(showId) {
-        if (this._subscribed) {
-            this._unSubscribe(showId);
+        if (this._following) {
+            this._unFollow(showId);
         } else {
-            this._subscribe(showId);
+            this._follow(showId);
         }
     }
 
@@ -40,14 +46,14 @@ class Subscriber {
         return document.getElementById(this.starId);
     }
 
-    /** Register a new subscribe callback */
-    onSubscribe(fn) {
-        this._callbacks.subscribe.push(fn);
+    /** Register a new follow callback */
+    onFollow(fn) {
+        this._callbacks[EVENTS.FOLLOWED].push(fn);
     }
 
-    /** Register a new unsubscribe callback */
-    onUnsubscribe(fn) {
-        this._callbacks.unsubscribe.push(fn);
+    /** Register a new unfollow callback */
+    onUnFollow(fn) {
+        this._callbacks[EVENTS.UNFOLLOWED].push(fn);
     }
 
     _notify(event) {
@@ -66,17 +72,17 @@ class Subscriber {
         })
     }
 
-    _subscribe(showId) {
+    _follow(showId) {
         this._makeApiCall(
             showId, 'POST',
-            () => this._notify('subscribe')
+            () => this._notify(EVENTS.FOLLOWED),
         );
     }
 
-    _unSubscribe(showId) {
+    _unFollow(showId) {
         this._makeApiCall(
             showId, 'DELETE',
-            () => this._notify('unsubscribe')
+            () => this._notify(EVENTS.UNFOLLOWED)
         );
     }
 }
