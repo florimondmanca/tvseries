@@ -92,8 +92,15 @@ class TMDBClient:
         :param show_id: id of the show in the API.
         :return: a Show object
         """
-        resp = self._request(f'tv/{show_id}')
-        data: dict = resp.json()
+        show_resp = self._request(f'tv/{show_id}')
+        data: dict = show_resp.json()
+        season_count: int = data['number_of_seasons']
+        seasons: List[dict] = []
+        for season_number in range(1, season_count + 1):
+            season_resp = self._request(f'tv/{show_id}/season/{season_number}')
+            season_data: dict = season_resp.json()
+            seasons.append(season_data)
+        data['list_seasons'] = seasons
         parser = self._get_show_parser()
         return parser.for_detail(data)
 
