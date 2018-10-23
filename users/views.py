@@ -10,3 +10,9 @@ class SignUpView(CreateView):
     form_class = SignUpForm
     template_name = 'users/signup.html'
     success_url = '/'
+
+class ProfileView(CreateView):
+    """Page to view the current user profile."""
+    model = User
+    template_name = 'users/profile.html'
+    fields = ['username', 'first_name', 'last_name', 'email', 'avatar']
