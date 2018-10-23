@@ -1,0 +1,13 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'series/style.css' %}">
+
+{% if followed_series_list %}
+    <ul>
+    {% for show in followed_series_list %}
+        <li>{{ show.title }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No series are available.</p>
+{% endif %}

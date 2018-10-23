@@ -4,7 +4,10 @@ from django.views.generic import FormView, View
 from series.forms import SearchSeriesForm
 from tmdb.shortcuts import search_shows, retrieve_show
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
 from django.http import HttpResponse
+
 from series.models import APIShow
 
 
@@ -49,6 +52,15 @@ class ShowDetailsView(View):
             request=request,
             context={'show': show, 'is_subscribed': sub, 'user': request.user}
         )
+
+
+class FollowedSeriesView(LoginRequiredMixin, ListView):
+    """Page to display the followed series of a user."""
+    template_name = 'series/followed_series.html'
+    context_object_name = 'followed_series_list'
+
+    def get_queryset(self):
+        return APIShow.objects.filter(followers=self.request.user)
 
 
 class APISubscribe(View):
