@@ -16,3 +16,6 @@ class ProfileView(UpdateView):
     model = User
     template_name = 'users/profile.html'
     fields = ['username', 'first_name', 'last_name', 'email', 'avatar']
+
+    def get_object(self, queryset=None):
+        return self.request.user
