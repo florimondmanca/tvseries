@@ -103,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'users.User'
 
 # See: https://docs.djangoproject.com/fr/2.1/ref/settings/#login-url
-LOGIN_URL = 'accounts/login/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
 # Internationalization
