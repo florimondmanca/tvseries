@@ -6,7 +6,6 @@ For looser coupling, external packages should probably use the
 shortcut functions defined in shortcuts.py.
 """
 
-import os
 import warnings
 from typing import List
 
@@ -16,6 +15,7 @@ from django.conf import settings
 from tmdb.pagination import collect_paginated_results
 from .parsers.shows import ShowParser
 from .datatypes import Show
+from . import settings
 
 
 class TMDBClient:
@@ -125,19 +125,18 @@ def get_tmdb_client(api_key: str = None) -> TMDBClient:
 
     :param api_key: str, optional
         If not given, the API key is retrieved from the TMDB_API_KEY
-        environment variable.
-        If the environment variable is not set, raises a warning.
+        setting as defined in `settings.py`.
     :return client: TMDBClient
     :raises UserWarning:
-        If the TMDB_API_KEY environment variable is not set,
+        If the TMDB_API_KEY setting is not set,
         but it was used to build the client.
     """
     if api_key is None:
-        api_key = os.getenv('TMDB_API_KEY')
+        api_key = settings.API_KEY
         if api_key is None:
             message = (
-                'TMDB_API_KEY environment variable not set! Requests to '
-                'the TMDB API will most likely fail.'
+                'TMDB_API_KEY setting not set! '
+                'Requests to the TMDB API will most likely fail.'
             )
             warnings.warn(message)
     return TMDBClient(api_key=api_key)

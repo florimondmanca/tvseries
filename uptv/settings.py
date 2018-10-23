@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -97,13 +98,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Use custom user class
+# User model
 # See:
 # https://docs.djangoproject.com/en/2.1/topics/auth/customizing/#substituting-a-custom-user-model
 AUTH_USER_MODEL = 'users.User'
 
+# Login page configuration
 # See: https://docs.djangoproject.com/fr/2.1/ref/settings/#login-url
-LOGIN_URL = 'accounts/login/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
 # Alerts config
@@ -137,6 +139,12 @@ LOGGING = {
     },
 }
 
+# Email
+# For how to send emails in Django, see:
+# https://docs.djangoproject.com/fr/2.1/topics/email/
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -157,3 +165,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+# TMDB configuration
+TMDB_API_KEY = os.environ.get('TMDB_API_KEY')

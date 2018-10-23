@@ -20,6 +20,12 @@ class BaseShowParser(Parser[Show]):
     SMALL_SIZE = 'w154'
     BIG_SIZE = 'w300'
 
+    PLACEHOLDER_URL_FMT = 'https://via.placeholder.com/{size}'
+    PLACEHOLDER_SIZES = {
+        SMALL_SIZE: '154x231',
+        BIG_SIZE: '300x450',
+    }
+
     def _get_logo_path(self, data: dict, size_code: str) -> Union[str, None]:
         """Build a full logo URL from the API poster path and a size code.
 
@@ -30,7 +36,7 @@ class BaseShowParser(Parser[Show]):
         if poster_path is not None:
             return self.ICON_URL + size_code + poster_path
         else:
-            return None
+            return self.PLACEHOLDER_URL_FMT.format(size=self.PLACEHOLDER_SIZES[size_code])
 
     def _get_small_logo_path(self, data: dict):
         return self._get_logo_path(data, size_code=self.SMALL_SIZE)
