@@ -143,4 +143,4 @@ def get_tmdb_client(api_key: str = None) -> TMDBClient:
 
 
 # Provide a default global TMDB client for convenience
-tmdb_client = get_tmdb_client("b6f2e2170c53099a5a65cf3d336d242f")
+tmdb_client = get_tmdb_client()
