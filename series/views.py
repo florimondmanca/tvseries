@@ -43,10 +43,7 @@ class ShowDetailsView(View):
 
     def get(self, request, id: int):
         show = retrieve_show(id)
-        if request.user.is_authenticated:
-            sub = APIShow.objects.filter(pk=id, followers__id=request.user.pk).exists()
-        else:
-            sub = False
+        sub = APIShow.objects.follows(show_id=id, user=request.user)
         return render(
             template_name='series/show_details.html',
             request=request,
