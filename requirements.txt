@@ -3,3 +3,5 @@ requests
 gunicorn
 python-dotenv
 Pillow  # required to use ImageField
+django-sendgrid-v5
+whitenoise  # service of static files in production

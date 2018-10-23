@@ -25,6 +25,25 @@ Start development server:
 $ python manage.py runserver
 ```
 
+### Settings
+
+The following settings are available and can be defined in a git-ignored `.env` file located at the root of your project directory:
+
+- `TMDB_API_KEY`: will be used to retrieve and search TV shows on the TheMovieDatabase (TMDB) API. Acquiring an API key requires to create a (free) TMDB account. Please refer to the API's [Getting Started guide](https://developers.themoviedb.org/3/getting-started/introduction) for how to create an API key.
+- `SENDGRID_API_KEY`: used to send alerts via email using SendGrid (see [next section](#Configuring-email-delivery-of-alerts)).
+
+### Configuring email delivery of alerts
+
+Alerts about new episodes are delivered via email.
+
+In production, email delivery is powered by [SendGrid](https://sendgrid.com). Credentials are associated to the `uptv` Heroku application and not disclosed here, obviously.
+
+It is also possible to use SendGrid in development. You will need to acquire a valid SendGrid API key (free hobby accounts are available) and to provide it through the `SENDGRID_API_KEY` environment variable.
+
+> Note that in `DEBUG` mode, emails will purposefully NOT be sent unless the `SENDGRID_SANDBOX_MODE_IN_DEBUG` is set to `False`. For more information, see [django-sendgrid-v5](https://github.com/sklarsa/django-sendgrid-v5).
+
+If SendGrid email is not configured, emails will not be sent but alerts will still be logged to the console.
+
 ## Contributing
 
 - Create a branch, e.g. `feature/awesome-feature` or `fix/very-nasty-bug`.

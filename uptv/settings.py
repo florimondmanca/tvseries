@@ -31,12 +31,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'series.apps.SeriesConfig',
     'users.apps.UsersConfig',
+    'series.apps.SeriesConfig',
+    'tmdb.apps.TmdbConfig',
+    'alerts.apps.AlertsConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,21 +98,59 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Use custom user class
+# User model
 # See:
 # https://docs.djangoproject.com/en/2.1/topics/auth/customizing/#substituting-a-custom-user-model
 AUTH_USER_MODEL = 'users.User'
 
+# Login page configuration
 # See: https://docs.djangoproject.com/fr/2.1/ref/settings/#login-url
-LOGIN_URL = 'accounts/login/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+
+# Alerts config
+# NOTE: a non-empty value for the env variable is considered as True
+ALERTS_ACTIVE = os.getenv('ALERTS_ACTIVE', False)
+
+# Logging
+# https://docs.djangoproject.com/fr/2.1/topics/logging/#examples
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'alerts': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+# Email
+# For how to send emails in Django, see:
+# https://docs.djangoproject.com/fr/2.1/topics/email/
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
@@ -124,3 +165,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+# TMDB configuration
+TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
