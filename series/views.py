@@ -58,8 +58,7 @@ class FollowedSeriesView(LoginRequiredMixin, ListView):
     """Page to display the followed series of a user."""
     template_name = 'series/followed_series.html'
     context_object_name = 'followed_series_list'
-
-    redirect_field_name = ''
+    redirect_field_name = 'next'
 
     def get_queryset(self):
         return APIShow.objects.filter(followers=self.request.user)
