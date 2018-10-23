@@ -42,10 +42,15 @@ class APIShow(models.Model):
         auto_now_add=True,
         help_text='When the show was first followed.',
     )
-    followers = models.ManyToManyField(
+    followers: models.Manager = models.ManyToManyField(
         to=User, related_name='favorites', blank=True,
         help_text='Users that will receive alerts about this show.',
     )
+
+    @property
+    def num_followers(self) -> int:
+        """Get the number of users following this show."""
+        return self.followers.count()
 
     def __str__(self) -> str:
         """Represent a show by its API ID."""
