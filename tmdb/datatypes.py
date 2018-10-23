@@ -16,7 +16,7 @@ class Episode:
 class Season:
     """Represents a season of a show"""
     number: int
-    list_episodes: List[Episode]
+    episodes: List[Episode]
 
 
 @dataclass
@@ -32,9 +32,4 @@ class Show:
     genres: List[str] = None
     next_episode_date: datetime = None
     last_episode_date: datetime = None
-    list_seasons: List[Season] = None
-
-
-
-
-
+    seasons: List[Season] = None

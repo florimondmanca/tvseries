@@ -92,7 +92,7 @@ class ShowDetailParser(ShowListParser):
             'creation_date': self._parse_date(data['first_air_date']),
             'last_episode_date': self._parse_date(data['last_air_date']),
             'next_episode_date': self._get_next_episode_date(data),
-            'list_seasons': self._get_list_seasons(data)
+            'seasons': self._get_list_seasons(data)
         }
 
 
