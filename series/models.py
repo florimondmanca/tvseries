@@ -3,8 +3,35 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 # Create your models here.
+from tmdb.shortcuts import retrieve_show
 
 User = get_user_model()
+
+
+class APIShowManager(models.Manager):
+    """Custom manager for APIShow objects."""
+
+    def create_from_api(self, show_id: int) -> 'APIShow':
+        """Create and store a new APIShow from its ID on the TMDB API."""
+        show = retrieve_show(show_id)
+        return self.create(id=show.id,
+                           title=show.title,
+                           description=show.synopsis)
+
+    def follows(self, show_id: int, user: User) -> bool:
+        """Return whether a user follows a show given by ID.
+
+        :param user : User
+            A user object, which may or may not be authenticated.
+        :param show_id : int
+            The unique identifier for the show,
+            (which might not be in database yet.)
+        :return follows : bool
+        """
+        if user.is_authenticated:
+            qs = self.get_queryset()
+            return qs.filter(pk=show_id, followers__id=user.pk).exists()
+        return False
 
 
 class APIShow(models.Model):
@@ -25,6 +52,8 @@ class APIShow(models.Model):
     >>> user.favorites.all()
     <QuerySet []>
     """
+
+    objects = APIShowManager()
 
     id = models.PositiveIntegerField(
         primary_key=True,
