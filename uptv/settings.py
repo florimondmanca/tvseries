@@ -96,14 +96,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Use custom user class
+# User model
 # See:
 # https://docs.djangoproject.com/en/2.1/topics/auth/customizing/#substituting-a-custom-user-model
 AUTH_USER_MODEL = 'users.User'
 
+# Login page configuration
 # See: https://docs.djangoproject.com/fr/2.1/ref/settings/#login-url
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+
+
+# Email
+# For how to send emails in Django, see:
+# https://docs.djangoproject.com/fr/2.1/topics/email/
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
