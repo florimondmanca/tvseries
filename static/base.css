@@ -67,8 +67,14 @@ li.tab > a {
     margin-left: 20px;
 }
 
+li.tab > a:hover {
+    border-bottom: 3px solid #f27981;
+}
+
 #active {
     color: var(--color-accent);
+    margin-right: 20px;
+    margin-left: 20px;
 }
 
 #show-brand {
@@ -77,4 +83,14 @@ li.tab > a {
     text-align: center;
     horiz-align: center;
     line-height: 0.75em;
+}
+
+footer {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-top: gray 1px solid;
+    text-align: center;
 }

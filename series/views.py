@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import FormView, View
+from django.views.generic import FormView, View, TemplateView
 from django.views.generic import ListView
 
 from series.forms import SearchSeriesForm
@@ -18,6 +18,7 @@ from tmdb.shortcuts import search_shows, retrieve_show, retrieve_season
 
 class SearchSeriesView(FormView):
     """Search for series."""
+
     template_name = 'series/search_series.html'
     form_class = SearchSeriesForm
     success_url = '/search'
@@ -30,7 +31,8 @@ class SearchSeriesView(FormView):
 
 
 class SearchResultsView(View):
-    """Result page after a search by user"""
+    """Result page after a search by user."""
+
     template = 'series/search_results.html'
 
     def get(self, request, term: str):
@@ -43,7 +45,8 @@ class SearchResultsView(View):
 
 
 class ShowDetailsView(View):
-    """Details of a show"""
+    """Details of a show."""
+
     template = 'series/show_details.html'
 
     def get(self, request, id: int):
@@ -84,6 +87,7 @@ class ShowDetailsView(View):
 
 class FollowedSeriesView(LoginRequiredMixin, ListView):
     """Page to display the followed series of a user."""
+
     template_name = 'series/followed_series.html'
     context_object_name = 'followed_series_list'
 
@@ -92,9 +96,7 @@ class FollowedSeriesView(LoginRequiredMixin, ListView):
 
 
 class APISubscribe(View):
-    """View called when a user subscribes or unsubscribes to a new show
-
-    """
+    """View called when a user subscribes or unsubscribes to a new show."""
 
     def post(self, request, show_id: int):
         """Called when a POST request is made to subscribe the user to the show
@@ -116,3 +118,9 @@ class APISubscribe(View):
         show = APIShow.objects.filter(id=show_id).first()
         show.followers.remove(request.user)
         return HttpResponse(200)
+
+
+class About(TemplateView):
+    """View for the About page."""
+
+    template_name = 'series/about.html'
