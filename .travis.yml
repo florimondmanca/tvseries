@@ -15,3 +15,14 @@ before_script:
 
 script:
   - python manage.py test
+
+deploy:
+  # Deploy to Heroku once the tests have passed
+  # See TravisCI docs: https://docs.travis-ci.com/user/deployment/heroku/
+  provider: heroku
+  app:
+    # direct each branch to the corresponding app
+    master: uptv
+  run:
+    # automatically run new migrations after deploy
+    - 'python manage.py migrate'
