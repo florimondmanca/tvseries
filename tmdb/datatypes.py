@@ -6,6 +6,20 @@ from typing import List
 
 
 @dataclass
+class Episode:
+    """Represents the details of an episode."""
+    number: int
+    synopsis: str
+
+
+@dataclass
+class Season:
+    """Represents a season of a show"""
+    number: int
+    episodes: List[Episode]
+
+
+@dataclass
 class Show:
     """Represents the details about a TV show."""
     id: int
@@ -18,3 +32,4 @@ class Show:
     genres: List[str] = None
     next_episode_date: datetime = None
     last_episode_date: datetime = None
+    seasons: List[Season] = None
