@@ -13,8 +13,9 @@ import requests
 
 from django.conf import settings
 from tmdb.pagination import collect_paginated_results
+from tmdb.parsers.seasons import SeasonParser
 from .parsers.shows import ShowParser
-from .datatypes import Show
+from .datatypes import Show, Season
 from . import settings
 
 
@@ -119,6 +120,13 @@ class TMDBClient:
             extract=lambda data: [show['id'] for show in data['results']],
         )
 
+    def retrieve_season(self, show_id, number) -> Season:
+        resp = self._request(f'tv/{show_id}/season/{number}')
+        data: dict = resp.json()
+        parser = SeasonParser()
+        season = parser.parse(data)
+        return season
+
 
 def get_tmdb_client(api_key: str = None) -> TMDBClient:
     """Build and return a TMDB client.
@@ -143,4 +151,4 @@ def get_tmdb_client(api_key: str = None) -> TMDBClient:
 
 
 # Provide a default global TMDB client for convenience
-tmdb_client = get_tmdb_client()
+tmdb_client: TMDBClient = get_tmdb_client()

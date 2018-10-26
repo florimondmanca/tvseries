@@ -75,20 +75,25 @@
 
     <ul id="season-nav">
         {% for season_number in seasons_range %}
-            <li>Season {{ season_number }}</li>
+            <li>
+                <a href="?season={{ season_number }}">
+                    Season {{ season_number }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
 
-    <!--
-    {% for season in show.seasons reversed %}
-        <p>Season {{ season.number }}</p>
-        <ul>
-            {% for episode in season.episodes reversed %}
-                <li> Episode {{ episode.number }}: {{ episode.synopsis }} </li>
-            {% endfor %}
-        </ul>
-    {% endfor %}
-    -->
+    {% if season %}
+        <section>
+            <h3>Season {{ season.number }}</h3>
+            <ul id="season-episodes">
+                {% for episode in season.episodes reversed %}
+                    <li>
+                        Episode {{ episode.number }}: {{ episode.synopsis }} </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}

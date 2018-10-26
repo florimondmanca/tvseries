@@ -4,7 +4,7 @@ from typing import Union, Optional
 from django.urls import reverse
 from django.views.generic import FormView, View
 from series.forms import SearchSeriesForm
-from tmdb.shortcuts import search_shows, retrieve_show
+from tmdb.shortcuts import search_shows, retrieve_show, retrieve_season
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
@@ -50,6 +50,13 @@ class ShowDetailsView(View):
         show = retrieve_show(id)
         api_show: Optional[APIShow] = APIShow.objects.filter(pk=id).first()
 
+        # Retrieve the current season, if specified in the query string
+        season_number = request.GET.get('season')
+        if season_number:
+            season = retrieve_season(id, number=season_number)
+        else:
+            season = None
+
         if api_show is not None:
             num_followers = api_show.num_followers
             follows = api_show.is_followed_by(request.user)
@@ -66,6 +73,7 @@ class ShowDetailsView(View):
                 'user': request.user,
                 'num_followers': num_followers,
                 'seasons_range': range(1, show.number_of_seasons + 1),
+                'season': season,
             }
         )
 
