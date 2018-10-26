@@ -19,6 +19,9 @@ class EpisodeParser(ImageParserMixin, Parser[Episode]):
         return {
             'number': data['episode_number'],
             'synopsis': data['overview'],
-            'still_path': self.get_image_or_placeholder_url(data['still_path']),
+            'still_path': self.get_image_or_placeholder_url(
+                data['still_path'],
+                family='stills',
+            ),
             'air_date': self._get_air_date(data),
         }
