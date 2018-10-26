@@ -2,7 +2,7 @@
 from typing import Union, Optional
 
 from django.urls import reverse
-from django.views.generic import FormView, View
+from django.views.generic import FormView, View, TemplateView
 from series.forms import SearchSeriesForm
 from tmdb.shortcuts import search_shows, retrieve_show
 from django.shortcuts import render
@@ -104,13 +104,9 @@ class APISubscribe(View):
         show.followers.remove(request.user)
         return HttpResponse(200)
 
-class About(View):
+class About(TemplateView):
     """View for the About page
 
     """
 
-    def get(self, request):
-        return render(
-            template_name='series/about.html',
-            request=request
-        )
+    template_name = 'series/about.html'
