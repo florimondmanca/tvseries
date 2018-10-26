@@ -3,12 +3,12 @@
 from datetime import datetime
 from typing import Union
 
-from tmdb.parsers.mixins import ImageMixin
+from .mixins import ImageParserMixin, ImageSize
 from .base import Parser, ParserGroup
 from ..datatypes import Show
 
 
-class BaseShowParser(ImageMixin, Parser[Show]):
+class BaseShowParser(ImageParserMixin, Parser[Show]):
     """Abstract parser class for show objects.
 
     Defines a few utility methods, but concrete subclasses must implement
@@ -17,32 +17,14 @@ class BaseShowParser(ImageMixin, Parser[Show]):
 
     object_class = Show
 
-    SMALL_SIZE = 'w154'
-    BIG_SIZE = 'w300'
-
-    PLACEHOLDER_URL_FMT = 'https://via.placeholder.com/{size}'
-    PLACEHOLDER_SIZES = {
-        SMALL_SIZE: '154x231',
-        BIG_SIZE: '300x450',
-    }
-
-    def _get_logo_path(self, data: dict, size_code: str) -> Union[str, None]:
-        """Build a full logo URL from the API poster path and a size code.
-
-        For the documentation about image URLs in the TMDB API, see:
-        https://developers.themoviedb.org/3/getting-started/images
-        """
-        poster_path = data['poster_path']
-        if poster_path is not None:
-            return self.get_full_path(path=poster_path, size_code=size_code)
-        else:
-            return self.PLACEHOLDER_URL_FMT.format(size=self.PLACEHOLDER_SIZES[size_code])
+    def _get_logo_path(self, data: dict, size: ImageSize) -> str:
+        return self.get_image_or_placeholder_url(data['poster_path'], size=size)
 
     def _get_small_logo_path(self, data: dict):
-        return self._get_logo_path(data, size_code=self.SMALL_SIZE)
+        return self._get_logo_path(data, size=ImageSize.SMALL)
 
     def _get_big_logo_path(self, data: dict):
-        return self._get_logo_path(data, size_code=self.BIG_SIZE)
+        return self._get_logo_path(data, size=ImageSize.BIG)
 
     @staticmethod
     def _parse_date(date: Union[str, None]) -> datetime.date:
