@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UpTV</title>
+    <meta name="description" content="Never miss on your favorite shows!">
+
+    <!-- Common style sheets -->
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+
+    <!-- Extra style sheets -->
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<nav>
+    <ul class="navbar">
+        <li class="tab">
+            <a href="{% url 'search_series' %}" id="active">Search</a>
+        </li>
+        <li class="tab">
+            <a href="{% url 'followed_series' %}">Favorite shows</a>
+        </li>
+        <li class="tab">
+            <a href="{% url 'profile' %}">Profile</a>
+        </li>
+        <li class="tab">
+            <!--TODO link to about page-->
+            <a href="{% url 'search_series' %}">About</a>
+        </li>
+    </ul>
+</nav>
+
+<header>
+    <div class="left">
+        <img src="{% static 'series/uptv_logo.png' %}">
+    </div>
+    <div class="right">
+        <span>Never miss on</span> <br/>
+        <span>your favorite</span> <br/>
+        <span id="show-brand">shows</span>
+    </div>
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
