@@ -26,3 +26,9 @@ deploy:
   run:
     # automatically run new migrations after deploy
     - 'python manage.py migrate'
+
+  api_key:
+    # Encrypted Heroku API token obtained from the following command
+    # (requires TravisCI and Heroku CLI installed)
+    # $ travis encrypt $(heroku auth:token) --add deploy.api_key
+    secure: CKGCwbfk3M07oFSi5JyGWJ5k60nSxNQ4aA8OrroMgdvj6UlVkIY20T/PzvLMoBN4TgwZiYyzfqB0hHLe58iSbkwMFfVsYToTKYODyJs4jkrAMDhxHBAs/B+EGjxKbhcks+YFpho27gvc+UfC3/SUEOMgHqIZdj0EFoLxhlRXlbaxWlCDK4jT2/kUM0UGsIaX+67IggrMVj698JSzxuf3cQH+LD7HsNhOWxPdxrYPsiZhvBhCzy82d8fIsen8pzoBg/MHMg1K5FgXedDD30+iVv1UCfHH1M3PDrNsRZI8P2kS7Oqc2nHg67EuvPJBhK7vR6MiyiRPS5JIuV5bAUFaFSaPnbVpcEvVWYI7kitFaqcEDBYc6lpXgqHLBEoezOjlNcd8hkYpI5omJx/+1Klx4q1hmguRdpQF6ZNnsc3nL0hGTGdiujVS3/+aoICBq5MI865A49gb/UGZHV+7W6mmQjastakqbMaD3+TSoNSKbCU9sryrowiAjNVw4hXo07msHCpfnz7JuWqMaFj2CJNrN0qSGsafFSGi5IcoUSzFOvk6Sa5wbJ/3rW7ACh75f3scl9I//LFESsZg2ARP+37L5qXAl4qmwUSxxn5k2uP5WS2K1kpJoQv+dVp/4tqCasHnzClm6Zsg8/0VJoVI43MYdWTEqBGGNd7xcLxTMqIzA1Q=
