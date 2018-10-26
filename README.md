@@ -59,13 +59,13 @@ export ALERTS_ACTIVE=1  # or set it in .env
 python manage.py runserver --noreload
 ```
 
+> **Note** : using this method, the alerts worker will run in sandbox mode and emails won't be delivered. To force email delivery, use the `ALERTS_FORCE_EMAIL` setting (see below).
+
 To use the Gunicorn production server instead, use:
 
 ```bash
 gunicorn uptv.wsgi -c uptv.gunicorn
 ```
-
-**Note** : using this method, the alerts worker will run in sandbox mode and emails won't be delivered. To force email delivery, use the `ALERTS_FORCE_EMAIL` setting (see below).
 
 ## Settings
 
