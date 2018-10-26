@@ -1,76 +1,76 @@
 /** CSS applied to all pages. */
 
 body, html {
-	margin-left: 50px;
-	margin-right: 50px;
-	font-family: Verdana, Geneva, sans-serif;
-	position: relative;
+    margin-left: 50px;
+    margin-right: 50px;
+    font-family: Verdana, Geneva, sans-serif;
+    position: relative;
 }
 
 header {
-	font-family: "Courier New", monospace;
+    font-family: "Courier New", monospace;
     font-size: 15px;
-	display: grid;
-	grid-gap: 10px;
-	width: 200px;
+    display: grid;
+    grid-gap: 10px;
+    width: 200px;
 }
 
 header .right {
-	grid-column: 2;
-	grid-row: 1;
+    grid-column: 2;
+    grid-row: 1;
     width: 150px;
-	text-align: justify;
-	vertical-align: auto;
+    text-align: justify;
+    vertical-align: auto;
 }
 
 header .left {
-	grid-column: 1;
-	grid-row: 1;
-	width: 100px;
-	text-align: right;
-	vertical-align: middle;
+    grid-column: 1;
+    grid-row: 1;
+    width: 100px;
+    text-align: right;
+    vertical-align: middle;
 }
 
 ul.navbar {
-	text-align: center;
-	text-transform: uppercase;
-	list-style-type: none;
+    text-align: center;
+    text-transform: uppercase;
+    list-style-type: none;
     margin-top: 0.8em;
 }
 
 li.tab {
-	display: inline;
+    display: inline;
 }
 
 li.tab > a {
-	text-decoration: none;
-	color: black;
-	margin-right: 20px;
-	margin-left: 20px;
+    text-decoration: none;
+    color: black;
+    margin-right: 20px;
+    margin-left: 20px;
 }
 
 li.tab > a:hover {
-	border-bottom: 3px solid #f27981;
+    border-bottom: 3px solid #f27981;
 }
 
 #active {
-	border-bottom: 3px solid #ef2734;
+    border-bottom: 3px solid #ef2734;
 }
 
 #show-brand {
-	font-variant: small-caps;
-	font-size: 58px;
-	text-align: center;
-	horiz-align: center;
-	line-height: 0.75em;
+    font-variant: small-caps;
+    font-size: 58px;
+    text-align: center;
+    horiz-align: center;
+    line-height: 0.75em;
 }
 
 footer {
     right: 0;
-	bottom: 0;
-  	left: 0;
-  	padding: 1rem;
-	margin-top: 1rem;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    margin-top: 1rem;
     border-top: gray 1px solid;
     text-align: center;
 }
