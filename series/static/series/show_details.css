@@ -32,7 +32,7 @@ li {
 }
 
 #star {
-    color: #fdda4e;
+    color: var(--color-primary);
 }
 
 .follower-count-container {
@@ -53,7 +53,7 @@ li {
 }
 
 #season-nav li.active {
-    background: palegoldenrod;
+    background: var(--color-primary);
 }
 
 #season-nav li a {
@@ -62,7 +62,7 @@ li {
 }
 
 #season-nav li:hover {
-    background: palegoldenrod;
+    background: var(--color-primary);
 }
 
 #season-episodes {

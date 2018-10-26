@@ -84,29 +84,26 @@
     </ul>
 
     {% if season %}
-        <section>
-            <h3>Season {{ season.number }}</h3>
-            <ul id="season-episodes">
-                {% for episode in season.episodes reversed %}
-                    <li>
-                        <img src="{{ episode.still_path }}">
-                        <div class="body">
-                            <p>
-                                <strong>
-                                    Episode {{ episode.number }}
-                                </strong>
-                            </p>
-                            <p class="muted">
-                                <small>{{ episode.air_date|date }}</small>
-                            </p>
-                            <p>
-                                <em>{{ episode.synopsis }}</em>
-                            </p>
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
-        </section>
+        <ul id="season-episodes">
+            {% for episode in season.episodes reversed %}
+                <li>
+                    <img src="{{ episode.still_path }}">
+                    <div class="body">
+                        <p>
+                            <strong>
+                                Episode {{ episode.number }}
+                            </strong>
+                        </p>
+                        <p class="muted">
+                            <small>{{ episode.air_date|date }}</small>
+                        </p>
+                        <p>
+                            <em>{{ episode.synopsis }}</em>
+                        </p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
     {% endif %}
 {% endblock %}
 
