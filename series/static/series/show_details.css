@@ -46,17 +46,21 @@ li {
     margin: 1em 0;
     padding: 0;
 }
+
 #season-nav li {
     background: lightyellow;
     margin: 0;
 }
+
 #season-nav li.active {
     background: palegoldenrod;
 }
+
 #season-nav li a {
     display: inline-block;
     padding: .5em 1em;
 }
+
 #season-nav li:hover {
     background: palegoldenrod;
 }
@@ -66,15 +70,25 @@ li {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: .5em;
 }
+
 #season-episodes li {
     margin: 0;
-    padding: 1em;
     background: whitesmoke;
 }
+
+#season-episodes li .body {
+    padding: 1em;
+}
+
 #season-episodes li p {
     margin: 0.2em 0;
 }
+
 #season-episodes li img {
     width: 100%;
     height: auto;
+}
+
+.muted {
+    color: gray;
 }

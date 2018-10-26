@@ -1,13 +1,11 @@
 """Parsers of show objects."""
 
 from datetime import datetime
-from typing import Union, List
+from typing import Union
 
 from tmdb.parsers.mixins import ImageMixin
-from tmdb.parsers.seasons import SeasonParser
-from ..datatypes import Show, Season, Episode
 from .base import Parser, ParserGroup
-
+from ..datatypes import Show
 
 
 class BaseShowParser(ImageMixin, Parser[Show]):
@@ -19,7 +17,6 @@ class BaseShowParser(ImageMixin, Parser[Show]):
 
     object_class = Show
 
-    ICON_URL = 'https://image.tmdb.org/t/p/'
     SMALL_SIZE = 'w154'
     BIG_SIZE = 'w300'
 

@@ -1,7 +1,7 @@
 """Data types for internal representation of TMDB entities."""
 
 from dataclasses import dataclass
-import datetime
+from datetime import date, datetime
 from typing import List
 
 
@@ -11,6 +11,7 @@ class Episode:
     number: int
     synopsis: str
     still_path: str
+    air_date: date
 
 
 @dataclass

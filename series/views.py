@@ -54,6 +54,7 @@ class ShowDetailsView(View):
         season_number = request.GET.get('season')
         if season_number:
             season = retrieve_season(id, number=season_number)
+            print(season.episodes[0].air_date)
         else:
             season = None
 
