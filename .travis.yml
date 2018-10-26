@@ -26,7 +26,6 @@ deploy:
   run:
     # automatically run new migrations after deploy
     - 'python manage.py migrate'
-
   api_key:
     # Encrypted Heroku API token obtained from the following command
     # (requires TravisCI and Heroku CLI installed)
