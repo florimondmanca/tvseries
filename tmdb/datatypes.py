@@ -10,6 +10,7 @@ class Episode:
     """Represents the details of an episode."""
     number: int
     synopsis: str
+    still_path: str
 
 
 @dataclass

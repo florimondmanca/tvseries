@@ -60,3 +60,21 @@ li {
 #season-nav li:hover {
     background: palegoldenrod;
 }
+
+#season-episodes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: .5em;
+}
+#season-episodes li {
+    margin: 0;
+    padding: 1em;
+    background: whitesmoke;
+}
+#season-episodes li p {
+    margin: 0.2em 0;
+}
+#season-episodes li img {
+    width: 100%;
+    height: auto;
+}

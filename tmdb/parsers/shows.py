@@ -3,12 +3,14 @@
 from datetime import datetime
 from typing import Union, List
 
+from tmdb.parsers.mixins import ImageMixin
 from tmdb.parsers.seasons import SeasonParser
 from ..datatypes import Show, Season, Episode
 from .base import Parser, ParserGroup
 
 
-class BaseShowParser(Parser[Show]):
+
+class BaseShowParser(ImageMixin, Parser[Show]):
     """Abstract parser class for show objects.
 
     Defines a few utility methods, but concrete subclasses must implement
@@ -35,7 +37,7 @@ class BaseShowParser(Parser[Show]):
         """
         poster_path = data['poster_path']
         if poster_path is not None:
-            return self.ICON_URL + size_code + poster_path
+            return self.get_full_path(path=poster_path, size_code=size_code)
         else:
             return self.PLACEHOLDER_URL_FMT.format(size=self.PLACEHOLDER_SIZES[size_code])
 
