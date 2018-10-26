@@ -1,1 +1,1 @@
-web: gunicorn uptv.wsgi:application --bind 0.0.0.0:$PORT
+web: gunicorn uptv.wsgi:application -c python:uptv.gunicorn
