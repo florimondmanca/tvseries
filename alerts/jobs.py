@@ -28,7 +28,7 @@ class AiringShowsJob(threading.Thread):
         notifier = EmailNotifier()
         for user in show.followers.all():
             # Send an email
-            notifier.notify(user)
+            notifier.notify(user, show)
             self._logger.debug({
                 'event': 'alert_sent',
                 'user': user.pk,
