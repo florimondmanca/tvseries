@@ -75,7 +75,7 @@
 
     <ul id="season-nav">
         {% for season_number in seasons_range %}
-            <li>
+            <li {% if season and season.number == season_number %}class="active"{% endif %}>
                 <a href="?season={{ season_number }}">
                     Season {{ season_number }}
                 </a>
@@ -89,7 +89,8 @@
             <ul id="season-episodes">
                 {% for episode in season.episodes reversed %}
                     <li>
-                        Episode {{ episode.number }}: {{ episode.synopsis }} </li>
+                        Episode {{ episode.number }}: {{ episode.synopsis }}
+                    </li>
                 {% endfor %}
             </ul>
         </section>

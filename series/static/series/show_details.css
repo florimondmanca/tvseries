@@ -43,15 +43,20 @@ li {
     display: flex;
     flex-flow: row wrap;
     list-style-type: none;
-    margin: 1em;
+    margin: 1em 0;
     padding: 0;
 }
 #season-nav li {
-    margin: 0;
-    padding: .5em 1em;
     background: lightyellow;
-    cursor: pointer;
+    margin: 0;
+}
+#season-nav li.active {
+    background: palegoldenrod;
+}
+#season-nav li a {
+    display: inline-block;
+    padding: .5em 1em;
 }
 #season-nav li:hover {
-    background: gold;
+    background: palegoldenrod;
 }
