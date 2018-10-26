@@ -71,14 +71,6 @@ class ShowDetailParser(ShowListParser):
         next_episode: dict = data['next_episode_to_air'] or {}
         return self._parse_date(next_episode.get('air_date'))
 
-    def _get_seasons(self, data: dict) -> List[Season]:
-        seasons = data['list_seasons']
-        season_parser = SeasonParser()
-        list_seasons = [season_parser.parse(season) for season in seasons]
-        # To be sure that the seasons are sorted in the right order
-        list_seasons.sort(key=lambda el: el.number)
-        return list_seasons
-
     def get_kwargs(self, data: dict) -> dict:
         return {
             **super().get_kwargs(data),
@@ -89,7 +81,7 @@ class ShowDetailParser(ShowListParser):
             'creation_date': self._parse_date(data['first_air_date']),
             'last_episode_date': self._parse_date(data['last_air_date']),
             'next_episode_date': self._get_next_episode_date(data),
-            'seasons': self._get_seasons(data)
+            'number_of_seasons': data['number_of_seasons'],
         }
 
 

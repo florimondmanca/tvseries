@@ -73,6 +73,13 @@
         </div>
     </div>
 
+    <ul id="season-nav">
+        {% for season_number in seasons_range %}
+            <li>Season {{ season_number }}</li>
+        {% endfor %}
+    </ul>
+
+    <!--
     {% for season in show.seasons reversed %}
         <p>Season {{ season.number }}</p>
         <ul>
@@ -81,6 +88,7 @@
             {% endfor %}
         </ul>
     {% endfor %}
+    -->
 {% endblock %}
 
 {% block scripts %}

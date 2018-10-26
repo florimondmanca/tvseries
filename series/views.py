@@ -65,6 +65,7 @@ class ShowDetailsView(View):
                 'follows': follows,
                 'user': request.user,
                 'num_followers': num_followers,
+                'seasons_range': range(1, show.number_of_seasons + 1),
             }
         )
 

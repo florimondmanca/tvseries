@@ -32,4 +32,4 @@ class Show:
     genres: List[str] = None
     next_episode_date: datetime = None
     last_episode_date: datetime = None
-    seasons: List[Season] = None
+    number_of_seasons: int = None

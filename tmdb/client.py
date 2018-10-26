@@ -70,15 +70,6 @@ class TMDBClient:
     def _get_show_parser(self) -> ShowParser:
         return self.show_parser_class()
 
-    def _get_seasons(self, show_id: int, data: dict) -> List[dict]:
-        season_count: int = data['number_of_seasons']
-        seasons: List[dict] = []
-        for season_number in range(1, season_count + 1):
-            season_resp = self._request(f'tv/{show_id}/season/{season_number}')
-            season_data: dict = season_resp.json()
-            seasons.append(season_data)
-        return seasons
-
     def search_show(self, title: str) -> List[Show]:
         """Search the title in the API to find corresponding TV shows.
 
@@ -105,7 +96,6 @@ class TMDBClient:
         """
         show_resp = self._request(f'tv/{show_id}')
         data: dict = show_resp.json()
-        data['list_seasons'] = self._get_seasons(show_id, data)
         parser = self._get_show_parser()
         return parser.for_detail(data)
 
