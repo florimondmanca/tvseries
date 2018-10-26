@@ -71,13 +71,10 @@ class ShowDetailParser(ShowListParser):
         next_episode: dict = data['next_episode_to_air'] or {}
         return self._parse_date(next_episode.get('air_date'))
 
-    def _get_list_seasons(self, data: dict) -> List[Season]:
+    def _get_seasons(self, data: dict) -> List[Season]:
         seasons = data['list_seasons']
-        list_seasons = []
-        for season_number in range(len(seasons)):
-            season_parser = SeasonParser()
-            season = season_parser.parse(seasons[season_number])
-            list_seasons.append(season)
+        season_parser = SeasonParser()
+        list_seasons = [season_parser.parse(season) for season in seasons]
         # To be sure that the seasons are sorted in the right order
         list_seasons.sort(key=lambda el: el.number)
         return list_seasons
@@ -92,7 +89,7 @@ class ShowDetailParser(ShowListParser):
             'creation_date': self._parse_date(data['first_air_date']),
             'last_episode_date': self._parse_date(data['last_air_date']),
             'next_episode_date': self._get_next_episode_date(data),
-            'seasons': self._get_list_seasons(data)
+            'seasons': self._get_seasons(data)
         }
 
 

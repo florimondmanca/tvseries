@@ -11,13 +11,10 @@ class SeasonParser(Parser[Season]):
 
     object_class = Season
 
-    def _get_list_episodes(self, data: dict) -> List[Episode]:
+    def _get_episodes(self, data: dict) -> List[Episode]:
         episodes: List[dict] = data['episodes']
-        list_episodes = []
-        for episode in episodes:
-            episode_parser = EpisodeParser()
-            episode = episode_parser.parse(episode)
-            list_episodes.append(episode)
+        episode_parser = EpisodeParser()
+        list_episodes = [episode_parser.parse(episode) for episode in episodes]
         # To be sure that the episodes are sorted in the right order
         list_episodes.sort(key=lambda el: el.number)
         return list_episodes
@@ -25,5 +22,5 @@ class SeasonParser(Parser[Season]):
     def get_kwargs(self, data: dict) -> dict:
         return {
             'number': data['season_number'],
-            'episodes': self._get_list_episodes(data)
+            'episodes': self._get_episodes(data)
         }
