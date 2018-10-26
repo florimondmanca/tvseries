@@ -88,3 +88,14 @@ class APISubscribe(View):
         show = APIShow.objects.filter(id=show_id).first()
         show.followers.remove(request.user)
         return HttpResponse(200)
+
+class About(View):
+    """View for the About page
+
+    """
+
+    def get(self, request):
+        return render(
+            template_name='series/about.html',
+            request=request
+        )
