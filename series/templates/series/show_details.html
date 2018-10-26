@@ -3,7 +3,9 @@
 <link rel="stylesheet" type="text/css" href="{% static 'series/show_details.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'series/style.css' %}">
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-<script type="text/javascript" src="{% static 'series/subscription.js' %}"></script>
+<script type="text/javascript" src="{% static 'series/followManager.js' %}"></script>
+<script type="text/javascript" src="{% static 'series/counter.js' %}"></script>
+<script type="text/javascript" src="{% static 'series/csrf.js' %}"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
       integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
@@ -20,8 +22,8 @@
         <img src="{% static 'series/uptv_logo.png' %}">
     </div>
     <div class="header-right">
-        <span>Never miss on</span> </br>
-        <span>your favorite</span> </br>
+        <span>Never miss on</span> <br/>
+        <span>your favorite</span> <br/>
         <span id="show">shows</span>
     </div>
 </div>
@@ -35,24 +37,46 @@
 
     <div class="right">
         <ul>
-            <li><span class="title">Created by </span> {{ show.directors|join:', ' }}</li>
-            <li><span class="title">First released on </span> {{ show.creation_date|date }}</li>
-            <li><span class="title">Genres : </span> {{ show.genres|join:', ' }}</li>
-            <li><span class="title">Synopsis : </span> {{ show.synopsis }}</li>
-            <li><span class="title">Last episode : </span> {{ show.last_episode_date|date }}</li>
-            {% if show.next_episode_date %}
-                <li><span class="title">Next episode : </span> {{ show.next_episode_date|date }}</li>
-            {% else %}
-                <li><span class="title">Next episode : </span> No future episode planned</li>
-            {% endif %}
+            <li>
+                <span class="title">Created by:</span>
+                {{ show.directors|join:', ' }}
+            </li>
+            <li>
+                <span class="title">First released on:</span>
+                {{ show.creation_date|date }}
+            </li>
+            <li>
+                <span class="title">Genres:</span>
+                {{ show.genres|join:', ' }}
+            </li>
+            <li><span class="title">Synopsis:</span>
+                {{ show.synopsis }}
+            </li>
+            <li>
+                <span class="title">Last episode:</span>
+                {{ show.last_episode_date|date }}
+            </li>
+            <li>
+                <span class="title">Next episode:</span>
+                {% if show.next_episode_date %}
+                    {{ show.next_episode_date|date }}
+                {% else %}
+                    No future episode planned.
+                {% endif %}
+            </li>
         </ul>
 
+        <p class="follower-count-container">
+            <span id="follower-count">
+                {{ num_followers }}
+            </span>
+            followers
+        </p>
+
         {% if user.is_authenticated %}
-            <i  id="star"
-                        class="{% if is_subscribed %}fas{% else %}far {% endif %} fa-star fa-2x"
-
-                        onclick="toggle_subscribe({{ show.id }}, {{ is_subscribed|yesno:"true,false" }})"></i>
-
+            <i id="star"
+               class="{% if follows %}fas{% else %}far{% endif %} fa-star fa-2x"
+               onclick="manager.toggle({{ show.id }})"></i>
             <span>Subscribe/Unsubscribe to this show</span>
         {% else %}
 
@@ -64,3 +88,10 @@
 
     </div>
 </div>
+
+<script type="text/javascript">
+    const counter = new Counter('follower-count');
+    const manager = new FollowManager('star', {{  follows|yesno:'true,false' }});
+    manager.onFollow(() => counter.increment());
+    manager.onUnFollow(() => counter.decrement());
+</script>
