@@ -9,47 +9,72 @@ Never miss on your favorite TV series new episodes! :boom:
 
 ## Install
 
-Install dependencies:
+Create a `.env` file at the project root with your credentials (for details, see [Settings](#settings)):
 
+```dotenv
+TMDB_API_KEY=...
+SENGRID_API_KEY=...
 ```
-$ python3 -m venv env
-$ source env/bin/activate
-$ pip install -r requirements.txt
-```
+
+Depending on how you want to run UpTV, some extra steps may be necessary — see below.
 
 ## Quickstart
 
-Start development server:
+### Using Docker
 
+This project requires Python 3.7+. If you don't have it installed on your machine, we provide a Docker Compose setup. You will need [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/) installed.
+
+The Docker Compose setup runs UpTV in production mode: hot-reloading is disabled, a PostgreSQL database is used instead of SQLite, and the alerts worker will start.
+
+To run UpTV using Docker, run:
+
+```bash
+docker-compose up -d
 ```
-$ python manage.py runserver
+
+The app will be available at http://localhost:8000.
+
+### Using local Python 3.7+
+
+If you have Python 3.7+, you can run UpTV without Docker. However, a few more installation steps are required:
+
+```bash
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
 ```
 
-By default, the alerts worker (responsible for sending notifications on new episodes) won't start in development. To activate it, run:
+You can now start the development server:
 
+```bash
+python manage.py runserver
 ```
-$ ALERTS_ACTIVE=true python manage.py runserver --noreload
+
+The app will be available at http://localhost:8000.
+
+By default, the alerts worker won't start in development. To activate it, use:
+
+```bash
+export ALERTS_ACTIVE=1  # or set it in .env
+python manage.py runserver --noreload
 ```
 
-### Settings
+To use the Gunicorn production server instead, use:
 
-The following settings are available and must be defined in a `.env` file (ignored by Git) located at the root of your project directory:
+```bash
+gunicorn uptv.wsgi -c uptv.gunicorn
+```
 
-- `TMDB_API_KEY` (no default): will be used to retrieve and search TV shows on the TheMovieDatabase (TMDB) API. Acquiring an API key requires to create a (free) TMDB account. Please refer to the API's [Getting Started guide](https://developers.themoviedb.org/3/getting-started/introduction) for how to create an API key.
-- `SENDGRID_API_KEY` (no default): used to send alerts via email using SendGrid (see [next section](#Configuring-email-delivery-of-alerts)). 
+**Note** : using this method, the alerts worker will run in sandbox mode and emails won't be delivered. To force email delivery, use the `ALERTS_FORCE_EMAIL` setting (see below).
+
+## Settings
+
+The following settings are available and can be defined in your `.env` file:
+
+- `TMDB_API_KEY` (no default): used to query the TheMovieDatabase (TMDB) API, which provides our data. If you don't have an API key, you can create a (free) TMDB account. Refer to the [Getting Started guide](https://developers.themoviedb.org/3/getting-started/introduction).
+- `SENDGRID_API_KEY` (no default): used to send alerts via email using SendGrid. For details, see [django-sendgrid-v5](https://github.com/sklarsa/django-sendgrid-v5). 
 - `ALERTS_ACTIVE` (default: `False`): whether to start the alerts worker upon server startup.
-
-### Configuring email delivery of alerts
-
-Alerts about new episodes are delivered via email.
-
-Email delivery is powered by [SendGrid](https://sendgrid.com). Production credentials are associated to the `uptv` Heroku application and not disclosed here, obviously.
-
-It is also possible to use SendGrid in development. You will need to acquire a valid SendGrid API key (free hobby accounts are available) and to provide it through the `SENDGRID_API_KEY` setting.
-
-> Note that in `DEBUG` mode, emails will purposefully NOT be sent unless the `SENDGRID_SANDBOX_MODE_IN_DEBUG` setting is set to `False`. For more information, see [django-sendgrid-v5](https://github.com/sklarsa/django-sendgrid-v5).
-
-If SendGrid email is not configured, emails will not be sent but alerts will still be logged to the console.
+- `ALERTS_FORCE_EMAIL` (default: `False`): whether to force the alerts worker to send emails, even in development.
 
 ## Contributing
 
