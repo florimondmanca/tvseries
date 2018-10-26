@@ -28,11 +28,11 @@ class AlertWorker(threading.Thread):
         to correctly stop this thread and the Timer it has fired.
         """
         for thread in threading.enumerate():
-            if thread.getName().find('MainThread') != -1:
+            if thread.name.find('MainThread') != -1:
                 return thread.is_alive()
         return False
 
-    def schedule_next(self):
+    def schedule_next(self) -> threading.Timer:
         """Schedule another run of this job after the configured period."""
         return threading.Timer(self.period_seconds, lambda: self.run())
 
@@ -44,8 +44,9 @@ class AlertWorker(threading.Thread):
         job = AiringShowsJob()
         timer = self.schedule_next()
 
+        # Stop job or timer if main thread exits
+        job.daemon = True
+        timer.daemon = True
+
         job.start()
         timer.start()
-
-        job.join()
-        timer.join()

@@ -16,7 +16,8 @@ class APIShowManager(models.Manager):
         show = retrieve_show(show_id)
         return self.create(id=show.id,
                            title=show.title,
-                           description=show.synopsis)
+                           description=show.synopsis,
+                           small_logo_path=show.small_logo_path)
 
 
 class APIShow(models.Model):
@@ -47,6 +48,10 @@ class APIShow(models.Model):
     title = models.CharField(
         max_length=100, null=True,
         help_text="The show's name on the TMDB API.",
+    )
+    small_logo_path = models.TextField(
+        null=True,
+        help_text='the url leading to small logo path',
     )
     description = models.TextField(
         null=True,

@@ -1,13 +1,23 @@
 {% extends 'series/base.html' %}
 {% load static %}
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'series/search_results.css' %}">
+{% endblock %}
 
 {% block content %}
+    <h1>Favorite shows</h1>
     {% if followed_series_list %}
-        <ul>
-            {% for show in followed_series_list %}
-                <li>{{ show.title }}</li>
-            {% endfor %}
-        </ul>
+    <section class="boxes">
+        {% for show in followed_series_list%}
+            <a href="{% url 'show_details' id=show.id %}" class="box">
+                <img src="{{ show.small_logo_path }}"/>
+                <br>
+                {{ show.title }}
+            </a>
+        {% endfor %}
+    </section>
     {% else %}
         <p>No series are available.</p>
     {% endif %}

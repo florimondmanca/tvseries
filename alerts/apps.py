@@ -12,13 +12,16 @@ class AlertsConfig(AppConfig):
         from alerts.worker import AlertWorker
         from . import settings
 
-        # NOTE: in development, Django runs two processes:
+        # NOTE: in development, Django runs two *processes* (not threads):
         # - One for the development server
         # - One for the auto-reload mechanism
-        # Which results in this method being called twice.
-        # It's probably fine and will not happen in production.
+        # Which results in this `ready()` method being called twice.
         # See:
         # https://stackoverflow.com/questions/33814615/how-to-avoid-appconfig-ready-method-running-twice-in-django
+        # We *cannot* use a locksto check whether a worker is already
+        # running, because this is a multiprocessing issue.
+        # As a workaround, deactivate auto-reload:
+        # $ python manage.py runserver --noreload
         if settings.ACTIVE:
             worker = AlertWorker()
             worker.start()
