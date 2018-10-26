@@ -1,36 +1,21 @@
+{% extends 'series/base.html' %}
 {% load static %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'series/style.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'series/search_results.css' %}">
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'series/search_results.css' %}">
+{% endblock %}
 
-<!--Navigation bar-->
-<ul class="navbar">
-    <li class="tab"><a href="{% url 'search_series' %}" id="active">Search</a></li>
-    <li class="tab"><a href="{% url 'followed_series' %}">Favorite shows</a></li>
-    <li class="tab"><a href="{% url 'profile' %}">Profile</a></li>
-    <li class="tab"><a href="{% url 'search_series' %}">About</a></li> <!--TODO link to about page-->
-</ul>
-
-<div class="header">
-    <div class="header-left">
-        <img src="{% static 'series/uptv_logo.png' %}">
-    </div>
-    <div class="header-right">
-        <span>Never miss on</span> </br>
-        <span>your favorite</span> </br>
-        <span id="show">shows</span>
-    </div>
-</div>
-
-
-<h1>Search Results for : {{ search_term }}</h1>
-<div class="boxes">
-    {% for show in shows_list %}
-        <a href="{% url 'show_details' id=show.id %}" class="box">
-            <img src="{{ show.small_logo_path }}"/>
-            <br>
-            {{ show.title }}
-        </a>
-    {% endfor %}
-</div>
-
+{% block content %}
+    <h1>Search Results for : {{ search_term }}</h1>
+    <section class="boxes">
+        {% for show in shows_list %}
+            <a href="{% url 'show_details' id=show.id %}" class="box">
+                <img src="{{ show.small_logo_path }}"/>
+                <br>
+                {{ show.title }}
+            </a>
+        {% endfor %}
+    </section>
+{% endblock %}

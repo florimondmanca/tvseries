@@ -1,30 +1,11 @@
+{% extends 'series/base.html' %}
 {% load static %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'series/style.css' %}">
+{% block content %}
+    <h1>Search</h1>
 
-<!--Navigation bar-->
-<ul class="navbar">
-    <li class="tab"><a href="{% url 'search_series'%}" id="active">Search</a></li>
-    <li class="tab"><a href="{% url 'followed_series'%}">Favorite shows</a></li>
-    <li class="tab"><a href="{% url 'profile'%}">Profile</a></li>
-    <li class="tab"><a href="{% url 'search_series'%}">About</a></li> <!--TODO link to about page-->
-</ul>
-
-<div class="header">
-    <div class="header-left">
-        <img  src="{% static 'series/uptv_logo.png' %}">
-    </div>
-    <div class="header-right">
-        <span>Never miss on</span> <br/>
-        <span>your favorite</span> <br/>
-        <span id="show">shows</span>
-    </div>
-</div>
-
-
-<h1>Search</h1>
-
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Search">
-</form>
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Search">
+    </form>
+{% endblock %}
