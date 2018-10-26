@@ -13,43 +13,54 @@
 
 {% block content %}
     <h1>{{ show.title }}</h1>
+
     <div class="boxes">
         <div class="left">
             <img src={{ show.big_logo_path }}>
         </div>
+
         <div class="right">
             <ul>
-                <li><span
-                        class="title">Created by </span> {{ show.directors|join:', ' }}
+                <li>
+                    <span class="title">Created by:</span>
+                    {{ show.directors|join:', ' }}
                 </li>
-                <li><span
-                        class="title">First released on </span> {{ show.creation_date|date }}
+                <li>
+                    <span class="title">First released on:</span>
+                    {{ show.creation_date|date }}
                 </li>
-                <li><span
-                        class="title">Genres : </span> {{ show.genres|join:', ' }}
+                <li>
+                    <span class="title">Genres:</span>
+                    {{ show.genres|join:', ' }}
                 </li>
-                <li><span class="title">Synopsis : </span> {{ show.synopsis }}
+                <li><span class="title">Synopsis:</span>
+                    {{ show.synopsis }}
                 </li>
-                <li><span
-                        class="title">Last episode : </span> {{ show.last_episode_date|date }}
+                <li>
+                    <span class="title">Last episode:</span>
+                    {{ show.last_episode_date|date }}
                 </li>
-                {% if show.next_episode_date %}
-                    <li><span
-                            class="title">Next episode : </span> {{ show.next_episode_date|date }}
-                    </li>
-                {% else %}
-                    <li><span class="title">Next episode : </span> No future
-                        episode planned
-                    </li>
-                {% endif %}
+                <li>
+                    <span class="title">Next episode:</span>
+                    {% if show.next_episode_date %}
+                        {{ show.next_episode_date|date }}
+                    {% else %}
+                        No future episode planned.
+                    {% endif %}
+                </li>
             </ul>
+
+            <p class="follower-count-container">
+            <span id="follower-count">
+                {{ num_followers }}
+            </span>
+                followers
+            </p>
 
             {% if user.is_authenticated %}
                 <i id="star"
-                   class="{% if is_subscribed %}fas{% else %}far {% endif %} fa-star fa-2x"
-
-                   onclick="toggle_subscribe({{ show.id }}, {{ is_subscribed|yesno:"true,false" }})"></i>
-
+                   class="{% if follows %}fas{% else %}far{% endif %} fa-star fa-2x"
+                   onclick="manager.toggle({{ show.id }})"></i>
                 <span>Subscribe/Unsubscribe to this show</span>
             {% else %}
 
@@ -59,14 +70,31 @@
                     of brand new episodes !</p>
 
             {% endif %}
-
         </div>
     </div>
+
+    {% for season in show.seasons reversed %}
+        <p>Season {{ season.number }}</p>
+        <ul>
+            {% for episode in season.episodes reversed %}
+                <li> Episode {{ episode.number }}: {{ episode.synopsis }} </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
 {% endblock %}
 
 {% block scripts %}
     <script type="text/javascript"
             src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script type="text/javascript"
-            src="{% static 'series/subscription.js' %}"></script>
+            src="{% static 'series/followManager.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'series/counter.js' %}"></script>
+    <script type="text/javascript" src="{% static 'series/csrf.js' %}"></script>
+    <script type="text/javascript">
+        const counter = new Counter('follower-count');
+        const manager = new FollowManager('star', {{  follows|yesno:'true,false' }});
+        manager.onFollow(() => counter.increment());
+        manager.onUnFollow(() => counter.decrement());
+    </script>
 {% endblock %}
