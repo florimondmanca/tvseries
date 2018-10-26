@@ -5,8 +5,10 @@ from users.models import User
 from series.models import APIShow
 from alerts.notifications import EmailNotifier
 
+
 class EmailTest(TestCase):
     """Email notification testing."""
+
     def test_send_email(self):
         # Add user and tv show
         user = User.objects.create_user(username='username', email='to@example.com', password='password')

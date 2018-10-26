@@ -1,9 +1,11 @@
 from django.core.mail import send_mail
 from users.models import User
 
+
 class NotificationBackend:
     """Backend for generic notifications."""
-    def notify(self, user:User):
+
+    def notify(self, user: User):
         pass
 
 
