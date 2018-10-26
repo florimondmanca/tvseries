@@ -1,22 +1,20 @@
+/** CSS applied to all pages. */
+
 body, html {
 	margin-left: 50px;
 	margin-right: 50px;
 	font-family: Verdana, Geneva, sans-serif;
-
 }
 
-.header > span {
+header {
+	font-family: "Courier New", monospace;
     font-size: 15px;
-}
-
-.header {
-	font-family: "Courier New", sans-serif;
 	display: grid;
 	grid-gap: 10px;
 	width: 200px;
 }
 
-.header-right {
+header .right {
 	grid-column: 2;
 	grid-row: 1;
     width: 150px;
@@ -24,20 +22,12 @@ body, html {
 	vertical-align: auto;
 }
 
-.header-left {
+header .left {
 	grid-column: 1;
 	grid-row: 1;
 	width: 100px;
 	text-align: right;
 	vertical-align: middle;
-}
-
-#show {
-	font-variant: small-caps;
-	font-size: 58px;
-	text-align: center;
-	horiz-align: center;
-	line-height: 0.75em;
 }
 
 ul.navbar {
@@ -66,6 +56,10 @@ li.tab > a:hover {
 	border-bottom: 3px solid #ef2734;
 }
 
-h1 {
-    text-align: center
+#show-brand {
+	font-variant: small-caps;
+	font-size: 58px;
+	text-align: center;
+	horiz-align: center;
+	line-height: 0.75em;
 }

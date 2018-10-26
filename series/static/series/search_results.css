@@ -1,11 +1,10 @@
-
 .boxes {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(auto-fill, 1fr);
-  grid-row-gap: 30px;
-  grid-column-gap: 30px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(auto-fill, 1fr);
+    grid-row-gap: 30px;
+    grid-column-gap: 30px;
 }
 
 .boxes .box {
