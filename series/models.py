@@ -18,21 +18,6 @@ class APIShowManager(models.Manager):
                            title=show.title,
                            description=show.synopsis)
 
-    def follows(self, show_id: int, user: User) -> bool:
-        """Return whether a user follows a show given by ID.
-
-        :param user : User
-            A user object, which may or may not be authenticated.
-        :param show_id : int
-            The unique identifier for the show,
-            (which might not be in database yet.)
-        :return follows : bool
-        """
-        if user.is_authenticated:
-            qs = self.get_queryset()
-            return qs.filter(pk=show_id, followers__id=user.pk).exists()
-        return False
-
 
 class APIShow(models.Model):
     """Represents a show retrievable through the TMDB API.
@@ -71,10 +56,26 @@ class APIShow(models.Model):
         auto_now_add=True,
         help_text='When the show was first followed.',
     )
-    followers = models.ManyToManyField(
+    followers: models.Manager = models.ManyToManyField(
         to=User, related_name='favorites', blank=True,
         help_text='Users that will receive alerts about this show.',
     )
+
+    def is_followed_by(self, user: User) -> bool:
+        """Return whether a user follows this show.
+
+        :param user : User
+            A user object, which may or may not be authenticated.
+        :return follows : bool
+        """
+        if user.is_authenticated:
+            return self.followers.filter(id=user.pk).exists()
+        return False
+
+    @property
+    def num_followers(self) -> int:
+        """Get the number of users following this show."""
+        return self.followers.count()
 
     def __str__(self) -> str:
         """Represent a show by its API ID."""
