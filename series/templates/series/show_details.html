@@ -89,6 +89,15 @@
     </div>
 </div>
 
+{% for season in show.seasons reversed %}
+    <p>Season {{ season.number }}</p>
+<ul>
+    {% for episode in season.episodes reversed %}
+    <li> Episode {{ episode.number }}: {{ episode.synopsis }} </li>
+    {% endfor %}
+</ul>
+{% endfor %}
+
 <script type="text/javascript">
     const counter = new Counter('follower-count');
     const manager = new FollowManager('star', {{  follows|yesno:'true,false' }});
