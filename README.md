@@ -74,7 +74,7 @@ The following settings are available and can be defined in your `.env` file:
 - `TMDB_API_KEY` (no default): used to query the TheMovieDatabase (TMDB) API, which provides our data. If you don't have an API key, you can create a (free) TMDB account. Refer to the [Getting Started guide](https://developers.themoviedb.org/3/getting-started/introduction).
 - `SENDGRID_API_KEY` (no default): used to send alerts via email using SendGrid. For details, see [django-sendgrid-v5](https://github.com/sklarsa/django-sendgrid-v5). 
 - `ALERTS_ACTIVE` (default: `False`): whether to start the alerts worker upon server startup.
-- `ALERTS_FORCE_EMAIL` (default: `False`): whether to force the alerts worker to send emails, even in development.
+- `ALERTS_FORCE_EMAIL` (default: `False`): whether to force the alerts worker to deliver emails in development. If `False`, emails will not be delivered (useful for local testing). This setting has no effect in production mode.
 
 ## Contributing
 
