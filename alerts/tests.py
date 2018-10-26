@@ -18,7 +18,7 @@ class EmailTest(TestCase):
         tv_show.followers.add(user)
 
         notifier = EmailNotifier()
-        notifier.notify(user)
+        notifier.notify(user, tv_show)
 
         # Test that one message has been sent.
         self.assertEqual(len(mail.outbox), 1)
@@ -27,4 +27,4 @@ class EmailTest(TestCase):
         self.assertEqual(mail.outbox[0].subject, notifier.get_subject())
 
         # Verify that the body of the first message is correct.
-        print(mail.outbox[0].body, 'New episodes for these series arrive today : Test TV Show')
+        print(mail.outbox[0].body, 'Today, a new episode of : Test TV Show')
