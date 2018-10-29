@@ -14,7 +14,7 @@ _MOCK_DATA_PATH = os.path.join(_HERE, 'mock_data')
 
 
 class NoMockData(Exception):
-    """Raised when trying to make a mock request with having set mock data."""
+    """Raised when trying to make a mock request without mock data."""
 
 
 class MockResponse(requests.Response):
