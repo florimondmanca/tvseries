@@ -157,11 +157,20 @@ class TMDBClient:
 
 
 def get_tmdb_client() -> TMDBClient:
-    try:
+    """Return a instance of the currently configured TMDB client.
+
+    The TMDB client class is given by the `TMDB_CLIENT` setting.
+
+    :raises: ImportError
+        If the TMDB client class defined by `TMDB_CLIENT` could not
+        be imported.
+    """
+    if hasattr(django_settings, 'TMDB_CLIENT'):
         client_path = django_settings.TMDB_CLIENT
-    except AttributeError:
-        client_path = settings.TMDB_CLIENT
-    client_class: Type[TMDBClient] = import_string(client_path)
+        client_class = import_string(client_path)
+    else:
+        # Use the default
+        client_class = TMDBClient
     return client_class.build()
 
 
