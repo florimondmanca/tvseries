@@ -42,6 +42,7 @@ If you have Python 3.7+, you can run UpTV without Docker. However, a few more in
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
+python manage.py migrate
 ```
 
 You can now start the development server:
