@@ -36,7 +36,7 @@ class MockTMDBClient(TMDBClient):
         self._data = None
 
     def _make_request(self, url: str, params: dict):
-        """Make a mock HTTP request.
+        """Override the default implementation to make a mock HTTP request.
 
         Must be used within a `with .data()` block.
         """
@@ -45,15 +45,22 @@ class MockTMDBClient(TMDBClient):
         return MockResponse(self._data)
 
     @contextmanager
-    def data(self, data: dict):
-        """Context manager to provide fake data for a request.
+    def data(self, from_file: str = None, data: dict = None):
+        """Context manager to provide fake JSON data for a request.
+
+        :param from_file : str
+            Used to load data from a file, only if `data` is not passed.
+        :param data : dict
+            JSON data to be attached to the request.
 
         Usage
         -----
         >>> client = MockTMDBClient()
-        >>> with client.data({'id': 1, 'title': 'Walking Dead'}) as data:
+        >>> with client.data(from_file='search.json') as data:
         >>>     response = client.search_show(data)
         """
+        if data is None:
+            data = self._load_from_disk(from_file)
         try:
             self._data = data
             yield data
@@ -66,6 +73,5 @@ class MockTMDBClient(TMDBClient):
             return json.loads(f.read())
 
     def search_show(self, title: str) -> List[Show]:
-        mock = self._load_from_disk('search.json')
-        with self.data(mock):
+        with self.data('search.json'):
             return super().search_show(title)

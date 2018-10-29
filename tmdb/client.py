@@ -7,7 +7,7 @@ shortcut functions defined in shortcuts.py.
 """
 
 import warnings
-from typing import List, Type
+from typing import List
 
 import requests
 from django.conf import settings as django_settings
