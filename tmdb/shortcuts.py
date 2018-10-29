@@ -2,7 +2,7 @@
 
 from typing import List
 
-from tmdb.client import tmdb_client
+from tmdb.client import get_tmdb_client
 from tmdb.datatypes import Show
 
 
@@ -12,7 +12,7 @@ def search_shows(title: str) -> List[Show]:
     :param title: str
     :return shows: list of Show
     """
-    return tmdb_client.search_show(title)
+    return get_tmdb_client().search_show(title)
 
 
 def retrieve_show(show_id: int) -> Show:
@@ -21,4 +21,4 @@ def retrieve_show(show_id: int) -> Show:
     :param show_id: ID of the show in the TMDB API.
     :return: Show
     """
-    return tmdb_client.retrieve_show(show_id)
+    return get_tmdb_client().retrieve_show(show_id)
