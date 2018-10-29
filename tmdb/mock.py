@@ -18,6 +18,7 @@ class NoMockData(Exception):
 
 
 class MockResponse(requests.Response):
+    """Mock of a GET 200 OK response with JSON data."""
 
     def __init__(self, data: dict):
         super().__init__()
@@ -43,6 +44,10 @@ class MockTMDBClient(TMDBClient):
         if self._data is None:
             raise NoMockData()
         return MockResponse(self._data)
+
+    def search_show(self, title: str) -> List[Show]:
+        with self.data('search.json'):
+            return super().search_show(title)
 
     @contextmanager
     def data(self, from_file: str = None, data: dict = None):
@@ -71,7 +76,3 @@ class MockTMDBClient(TMDBClient):
         path = os.path.join(_MOCK_DATA_PATH, filename)
         with open(path, 'r') as f:
             return json.loads(f.read())
-
-    def search_show(self, title: str) -> List[Show]:
-        with self.data('search.json'):
-            return super().search_show(title)
