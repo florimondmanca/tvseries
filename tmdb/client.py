@@ -39,7 +39,12 @@ class TMDBClient:
         parts = (self.ROOT_URL, endpoint)
         return '/'.join(part.strip('/') for part in parts)
 
-    def _make_request(self, url: str, params: dict):
+    def _make_request(self, url: str, params: dict) -> requests.Response:
+        """Define how a request should actually be made.
+
+        Allows subclasses to define their own implementation.
+        Especially useful for testing and mocking.
+        """
         return requests.get(url, params=params)
 
     def _request(self, endpoint: str, params: dict = None,
@@ -156,14 +161,18 @@ class TMDBClient:
         return cls(api_key=api_key)
 
 
-def get_tmdb_client() -> TMDBClient:
+def get_tmdb_client(api_key: str = None) -> TMDBClient:
     """Return a instance of the currently configured TMDB client.
 
-    The TMDB client class is given by the `TMDB_CLIENT` setting.
+    If the `TMDB_CLIENT` Django setting is set, its value is used as the
+    dotted path to load the TMDB `client_class`.
+    Otherwise, the default TMDBClient class is used.
+
+    This is then an alias to `client_class.build()`.
 
     :raises: ImportError
-        If the TMDB client class defined by `TMDB_CLIENT` could not
-        be imported.
+        If `TMDB_CLIENT` is set but the TMDB client class could not
+        be imported from it.
     """
     if hasattr(django_settings, 'TMDB_CLIENT'):
         client_path = django_settings.TMDB_CLIENT
@@ -171,7 +180,7 @@ def get_tmdb_client() -> TMDBClient:
     else:
         # Use the default
         client_class = TMDBClient
-    return client_class.build()
+    return client_class.build(api_key=api_key)
 
 
 # Provide a default global TMDB client for convenience
