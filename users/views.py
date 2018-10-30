@@ -18,7 +18,7 @@ class ProfileView(LoginRequiredMixin, UpdateView):
     """Page to view the current user profile."""
     model = User
     template_name = 'users/profile.html'
-    fields = ['username', 'first_name', 'last_name', 'email', 'avatar']
+    fields = ['username', 'first_name', 'last_name', 'email']
     success_url = '/'
 
     def get_object(self, queryset=None):
