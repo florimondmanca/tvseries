@@ -10,11 +10,14 @@ import warnings
 from typing import List
 
 import requests
+from django.conf import settings
+from django.http import Http404
 
 from tmdb.pagination import collect_paginated_results
-from .parsers.shows import ShowParser
-from .datatypes import Show
+from tmdb.parsers.seasons import SeasonParser
 from . import settings
+from .datatypes import Show, Season
+from .parsers.shows import ShowParser
 
 
 class TMDBClient:
@@ -69,15 +72,6 @@ class TMDBClient:
     def _get_show_parser(self) -> ShowParser:
         return self.show_parser_class()
 
-    def _get_seasons(self, show_id: int, data: dict) -> List[dict]:
-        season_count: int = data['number_of_seasons']
-        seasons: List[dict] = []
-        for season_number in range(1, season_count + 1):
-            season_resp = self._request(f'tv/{show_id}/season/{season_number}')
-            season_data: dict = season_resp.json()
-            seasons.append(season_data)
-        return seasons
-
     def search_show(self, title: str) -> List[Show]:
         """Search the title in the API to find corresponding TV shows.
 
@@ -102,9 +96,13 @@ class TMDBClient:
         :param show_id: id of the show in the API.
         :return: a Show object
         """
-        show_resp = self._request(f'tv/{show_id}')
-        data: dict = show_resp.json()
-        data['list_seasons'] = self._get_seasons(show_id, data)
+        try:
+            resp = self._request(f'tv/{show_id}')
+        except requests.HTTPError as e:
+            if e.response.status_code == 404:
+                raise Http404(f'Show {show_id} does not exist') from e
+            raise
+        data: dict = resp.json()
         parser = self._get_show_parser()
         return parser.for_detail(data)
 
@@ -127,6 +125,28 @@ class TMDBClient:
             total_pages=lambda data: data['total_pages'],
             extract=lambda data: [show['id'] for show in data['results']],
         )
+
+    def retrieve_season(self, show_id: int, number: int) -> Season:
+        """Retrieve details of a season.
+
+        :param show_id: int
+            ID of the show in the API.
+        :param number:
+            Number of the season on that show.
+        :return: a Show object
+        :raises SeasonNotFound
+            If the show doesn't have a season of the given number.
+        """
+        try:
+            resp = self._request(f'tv/{show_id}/season/{number}.')
+        except requests.HTTPError as e:
+            if e.response.status_code == 404:
+                raise Http404(f'Show {show_id} has no season {number}.') from e
+        else:
+            data: dict = resp.json()
+            parser = SeasonParser()
+            season = parser.parse(data)
+            return season
 
 
 def get_tmdb_client(api_key: str = None) -> TMDBClient:
@@ -152,4 +172,4 @@ def get_tmdb_client(api_key: str = None) -> TMDBClient:
 
 
 # Provide a default global TMDB client for convenience
-tmdb_client = get_tmdb_client()
+tmdb_client: TMDBClient = get_tmdb_client()
