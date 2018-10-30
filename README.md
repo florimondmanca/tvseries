@@ -5,7 +5,10 @@
 [![Django](https://img.shields.io/badge/django-2.1-blue.svg?style=flat-square)](https://www.djangoproject.com)
 [![API](https://img.shields.io/badge/api_provider-tmdb-orange.svg?style=flat-square)](https://www.themoviedb.org/documentation/api)
 
-Never miss on your favorite TV series new episodes! :boom:
+Never miss on your favorite TV show's new episodes! :boom:
+
+## Production
+The application is available on https://uptv.herokuapp.com/. Sign up to start subscribing to TV shows and getting notifications for the latest episodes!
 
 ## Install
 
