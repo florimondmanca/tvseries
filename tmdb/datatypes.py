@@ -9,6 +9,7 @@ from typing import List
 class Episode:
     """Represents the details of an episode."""
     number: int
+    name: str
     synopsis: str
     still_path: str
     air_date: date

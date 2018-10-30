@@ -18,6 +18,7 @@ class EpisodeParser(ImageParserMixin, Parser[Episode]):
     def get_kwargs(self, data: dict) -> dict:
         return {
             'number': data['episode_number'],
+            'name': data['name'],
             'synopsis': data['overview'],
             'still_path': self.get_image_or_placeholder_url(
                 data['still_path'],
