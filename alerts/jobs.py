@@ -3,6 +3,7 @@ import threading
 
 from series.models import APIShow
 from tmdb.client import tmdb_client
+from alerts.notifications import EmailNotifier
 
 
 class AiringShowsJob(threading.Thread):
@@ -24,8 +25,10 @@ class AiringShowsJob(threading.Thread):
     _logger = logging.getLogger('alerts')
 
     def notify_followers(self, show: APIShow):
+        notifier = EmailNotifier()
         for user in show.followers.all():
-            # TODO send an email
+            # Send an email
+            notifier.notify(user, show)
             self._logger.debug({
                 'event': 'alert_sent',
                 'user': user.pk,
