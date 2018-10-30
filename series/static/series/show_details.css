@@ -1,19 +1,23 @@
+h1 {
+    margin-top: 0;
+}
+
 .boxes {
     display: grid;
+    grid-template-columns: auto 1fr;
     grid-gap: 30px;
 }
 
 .right {
-    grid-column: 2;
-    grid-row: 1;
     text-align: justify;
-    width: 500px;
 }
 
 .left {
-    grid-column: 1;
-    grid-row: 1;
     text-align: right;
+}
+.left img {
+    width: 100%;
+    height: auto;
 }
 
 ul {
@@ -27,12 +31,12 @@ li {
 }
 
 .title {
-    font-variant: small-caps;
-    font-size: 20px;
+    font-weight: bold;
 }
 
 #star {
     color: var(--color-primary);
+    cursor: pointer;
 }
 
 .follower-count-container {
