@@ -1,13 +1,16 @@
 """Long-running worker that executes alerting jobs."""
 import logging
 import threading
+from time import sleep
+
+from django.utils import timezone
+from datetime import time, timedelta, datetime
+from . import settings
 
 from alerts.jobs import AiringShowsJob
 
-ONE_DAY = 60 * 60 * 24
 
-
-class AlertWorker(threading.Thread):
+class AlertsWorker(threading.Thread):
     """Check for airing jobs every day.
 
     Notes
@@ -17,36 +20,65 @@ class AlertWorker(threading.Thread):
     that this thread is started.
     """
 
-    period_seconds = ONE_DAY
     _logger = logging.getLogger('alerts')
+    _poll_duration_seconds = 10
 
-    @staticmethod
-    def main_thread_is_alive() -> bool:
-        """Check if the main thread is still running.
+    @property
+    def run_time(self) -> time:
+        """Return the run time of the alerts worker."""
+        return settings.RUN_TIME
 
-        This check is required because the web server may not be able
-        to correctly stop this thread and the Timer it has fired.
+    def seconds_to_next_run(self, dt: datetime) -> int:
+        """Return the number of seconds between a date and the next run.
+
+        :param dt: datetime
+        :return delay : int
+            Number of seconds between `dt` and the next run.
         """
-        for thread in threading.enumerate():
-            if thread.name.find('MainThread') != -1:
-                return thread.is_alive()
-        return False
+        run_time = self.run_time
 
-    def schedule_next(self) -> threading.Timer:
-        """Schedule another run of this job after the configured period."""
-        return threading.Timer(self.period_seconds, lambda: self.run())
+        # Compute the day of the next run.
+        # It depends on whether the given time is before (same day),
+        # or after (next day) the run time.
+        if dt.time() < run_time:
+            next_run_day = dt.date()
+        else:
+            next_run_day = dt.date() + timedelta(days=1)
+
+        next_run = timezone.datetime.combine(
+            date=next_run_day,
+            time=run_time,
+            tzinfo=dt.tzinfo,
+        )
+
+        delta: timedelta = next_run - dt
+        delay = int(delta.total_seconds())
+
+        return delay
+
+    def _wait_for_next_run(self):
+        """Wait for the next run of the worker."""
+        delay = self.seconds_to_next_run(timezone.now())
+        while delay > 0:
+            self._logger.info({
+                'event': 'checking_for_next_run',
+                'seconds_to_next_run': delay,
+            })
+            chunk = min(delay, self._poll_duration_seconds)
+            self._logger.info({
+                'event': 'going_to_sleep',
+                'duration': chunk,
+            })
+            sleep(chunk)
+            delay -= chunk
+
+    def _run_job(self):
+        job = AiringShowsJob()
+        job.daemon = True  # Kill if main thread exits
+        job.start()
+        job.join()
 
     def run(self):
-        if not self.main_thread_is_alive():
-            self._logger.info('Skipping because main thread has exited.')
-            return
-
-        job = AiringShowsJob()
-        timer = self.schedule_next()
-
-        # Stop job or timer if main thread exits
-        job.daemon = True
-        timer.daemon = True
-
-        job.start()
-        timer.start()
+        while self.is_alive():
+            self._wait_for_next_run()
+            self._run_job()

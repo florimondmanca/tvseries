@@ -9,7 +9,7 @@ class AlertsConfig(AppConfig):
         # because it would trigger an import of models that are
         # only ready when all apps have been loaded and raise the following:
         # "django.core.exceptions.AppRegistryNotReady: Apps aren't loaded yet."
-        from alerts.worker import AlertWorker
+        from alerts.worker import AlertsWorker
         from . import settings
 
         # NOTE: in development, Django runs two *processes* (not threads):
@@ -23,5 +23,5 @@ class AlertsConfig(AppConfig):
         # As a workaround, deactivate auto-reload:
         # $ python manage.py runserver --noreload
         if settings.ACTIVE:
-            worker = AlertWorker()
+            worker = AlertsWorker()
             worker.start()

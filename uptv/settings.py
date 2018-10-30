@@ -111,6 +111,7 @@ LOGIN_REDIRECT_URL = '/'
 # Alerts config
 # NOTE: a non-empty value for the env variable is considered as True
 ALERTS_ACTIVE = os.getenv('ALERTS_ACTIVE', False)
+ALERTS_RUN_TIME = os.getenv('ALERTS_RUN_TIME', '08:00:00')
 
 # Logging
 # https://docs.djangoproject.com/fr/2.1/topics/logging/#examples
