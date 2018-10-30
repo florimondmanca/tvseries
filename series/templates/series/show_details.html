@@ -73,14 +73,38 @@
         </div>
     </div>
 
-    {% for season in show.seasons reversed %}
-        <p>Season {{ season.number }}</p>
-        <ul>
+    <ul id="season-nav">
+        {% for season_number in seasons_range %}
+            <li {% if season and season.number == season_number %}class="active"{% endif %}>
+                <a href="?season={{ season_number }}">
+                    Season {{ season_number }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if season %}
+        <ul id="season-episodes">
             {% for episode in season.episodes reversed %}
-                <li> Episode {{ episode.number }}: {{ episode.synopsis }} </li>
+                <li>
+                    <img src="{{ episode.still_path }}">
+                    <div class="body">
+                        <p>
+                            <strong>
+                                {{ episode.number }} - {{ episode.name }}
+                            </strong>
+                        </p>
+                        <p class="muted">
+                            <small>{{ episode.air_date|date }}</small>
+                        </p>
+                        <p>
+                            <em>{{ episode.synopsis }}</em>
+                        </p>
+                    </div>
+                </li>
             {% endfor %}
         </ul>
-    {% endfor %}
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}

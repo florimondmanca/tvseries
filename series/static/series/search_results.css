@@ -11,13 +11,11 @@
     padding: 5px;
 }
 
-a {
+.boxes a {
     color: inherit;
-    text-decoration: none;
     text-align: center;
 }
 
-a:hover {
-    background-color: #c9dce8;
+.boxes a:hover {
+    background-color: var(--color-bg-light);
 }
-
