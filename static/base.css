@@ -67,10 +67,6 @@ li.tab > a {
     margin-left: 20px;
 }
 
-li.tab > a:hover {
-    border-bottom: 3px solid #f27981;
-}
-
 #active {
     color: var(--color-accent);
     margin-right: 20px;
