@@ -5,7 +5,7 @@ https://docs.djangoproject.com/fr/2.1/topics/auth/default/#django.contrib.auth.v
 """
 
 from django.urls import path
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LogoutView
 
 from . import views
 
@@ -17,7 +17,7 @@ logout_view_config = {
 }
 
 urlpatterns = [
-    path('login/', LoginView.as_view(**login_view_config), name='login'),
+    path('login/', views.OwnLoginView.as_view(**login_view_config), name='login'),
     path('logout/', LogoutView.as_view(**logout_view_config), name='logout'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
     path('profile/', views.ProfileView.as_view(), name='profile')
