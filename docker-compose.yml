@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+
+  uptv:
+    build: .
+    environment:
+      - SECRET_KEY=djjaz239dsvsjkdqàz2E!è34sd
+      - PORT=8000
+      - ALERTS_ACTIVE=1
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/uptv
+      - DJANGO_SETTINGS_MODULE=uptv.settings-production
+      # NOTE: TMDB_API_KEY and SENDGRID_API_KEY will be taken from your
+      # .env file. Make sure you've set them there!
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=uptv

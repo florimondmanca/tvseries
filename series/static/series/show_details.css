@@ -1,18 +1,18 @@
 .boxes {
-	display: grid;
-	grid-gap: 30px;
+    display: grid;
+    grid-gap: 30px;
 }
 
 .right {
-	grid-column: 2;
-	grid-row: 1;
-	text-align: justify;
+    grid-column: 2;
+    grid-row: 1;
+    text-align: justify;
     width: 500px;
 }
 
 .left {
-	grid-column: 1;
-	grid-row: 1;
+    grid-column: 1;
+    grid-row: 1;
     text-align: right;
 }
 
@@ -23,18 +23,73 @@ ul {
 }
 
 li {
-	margin: 1em 0;
+    margin: 1em 0;
 }
 
 .title {
-	font-variant: small-caps;
-	font-size: 20px;
+    font-variant: small-caps;
+    font-size: 20px;
 }
 
 #star {
-	color: #fdda4e;
+    color: var(--color-primary);
 }
 
 .follower-count-container {
-    color: orange;
+    color: var(--color-primary);
+}
+
+#season-nav {
+    display: flex;
+    flex-flow: row wrap;
+    list-style-type: none;
+    margin: 1em 0;
+    padding: 0;
+    justify-content: center;
+}
+
+#season-nav li {
+    background: lightyellow;
+    margin: 0;
+}
+
+#season-nav li.active {
+    background: var(--color-primary);
+}
+
+#season-nav li a {
+    display: inline-block;
+    padding: .5em 1em;
+}
+
+#season-nav li:hover {
+    background: var(--color-primary);
+}
+
+#season-episodes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: .5em;
+}
+
+#season-episodes li {
+    margin: 0;
+    background: whitesmoke;
+}
+
+#season-episodes li .body {
+    padding: 1em;
+}
+
+#season-episodes li p {
+    margin: 0.2em 0;
+}
+
+#season-episodes li img {
+    width: 100%;
+    height: auto;
+}
+
+.muted {
+    color: gray;
 }

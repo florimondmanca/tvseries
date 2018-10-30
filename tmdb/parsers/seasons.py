@@ -8,6 +8,7 @@ from .base import Parser
 
 
 class SeasonParser(Parser[Season]):
+    """Parser of Season objects."""
 
     object_class = Season
 
