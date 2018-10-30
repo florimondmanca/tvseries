@@ -1,16 +1,16 @@
 """Views for series app."""
-from typing import Union, Optional
+from typing import Optional
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import FormView, View, TemplateView
-from series.forms import SearchSeriesForm
-from tmdb.shortcuts import search_shows, retrieve_show
-from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
-from django.http import HttpResponse
 
+from series.forms import SearchSeriesForm
 from series.models import APIShow
+from tmdb.shortcuts import search_shows, retrieve_show, retrieve_season
 
 
 # Create your views here.
@@ -53,22 +53,35 @@ class ShowDetailsView(View):
         show = retrieve_show(id)
         api_show: Optional[APIShow] = APIShow.objects.filter(pk=id).first()
 
+        context = {
+            'show': show,
+            'user': request.user,
+            'seasons_range': range(1, show.number_of_seasons + 1),
+        }
+
+        # Retrieve the current season, if specified in the query string
+        season_number = request.GET.get('season')
+        if season_number:
+            season = retrieve_season(id, number=season_number)
+        else:
+            season = None
+        context['season'] = season
+
+        # Retrieve the number of followers and whether the user follows
+        # this show.
         if api_show is not None:
             num_followers = api_show.num_followers
             follows = api_show.is_followed_by(request.user)
         else:
             num_followers = 0
             follows = False
+        context['num_followers'] = num_followers
+        context['follows'] = follows
 
         return render(
             template_name='series/show_details.html',
             request=request,
-            context={
-                'show': show,
-                'follows': follows,
-                'user': request.user,
-                'num_followers': num_followers,
-            }
+            context=context,
         )
 
 
@@ -105,6 +118,7 @@ class APISubscribe(View):
         show = APIShow.objects.filter(id=show_id).first()
         show.followers.remove(request.user)
         return HttpResponse(200)
+
 
 class About(TemplateView):
     """View for the About page."""

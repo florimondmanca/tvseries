@@ -144,6 +144,7 @@ LOGGING = {
 # https://docs.djangoproject.com/fr/2.1/topics/email/
 EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
+SENDGRID_SANDBOX_MODE_IN_DEBUG = not os.environ.get('ALERTS_FORCE_EMAIL')
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

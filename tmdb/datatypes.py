@@ -1,7 +1,7 @@
 """Data types for internal representation of TMDB entities."""
 
 from dataclasses import dataclass
-import datetime
+from datetime import date, datetime
 from typing import List
 
 
@@ -9,7 +9,10 @@ from typing import List
 class Episode:
     """Represents the details of an episode."""
     number: int
+    name: str
     synopsis: str
+    still_path: str
+    air_date: date
 
 
 @dataclass
@@ -32,4 +35,4 @@ class Show:
     genres: List[str] = None
     next_episode_date: datetime = None
     last_episode_date: datetime = None
-    seasons: List[Season] = None
+    number_of_seasons: int = None

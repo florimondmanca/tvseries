@@ -1,1 +1,1 @@
-web: gunicorn uptv.wsgi:application -c python:uptv.gunicorn
+web: gunicorn uptv.wsgi -c python:uptv.gunicorn
