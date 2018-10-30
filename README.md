@@ -82,7 +82,7 @@ The following settings are available and can be defined in your `.env` file:
 - `SENDGRID_API_KEY` (no default): used to send alerts via email using SendGrid. For details, see [django-sendgrid-v5](https://github.com/sklarsa/django-sendgrid-v5). 
 - `ALERTS_ACTIVE` (default: `False`): whether to start the alerts worker upon server startup.
 - `ALERTS_FORCE_EMAIL` (default: `False`): whether to force the alerts worker to deliver emails in development. If `False`, emails will not be delivered (useful for local testing). This setting has no effect in production mode.
-- `ALERTS_RUN_TIME` (default: `'08:00:00'`): a `hh:mm:ss` string representing the run time of the alerts worker.
+- `ALERTS_RUN_TIME` (default: `08:00:00`): `hh:mm:ss` string representing the run time of the alerts worker.
 
 ## Contributing
 
