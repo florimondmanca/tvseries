@@ -8,7 +8,10 @@ from alerts.notifications import EmailNotifier
 
 class EmailTest(TestCase):
     """Email notification testing.
-    Inspired from: https://docs.djangoproject.com/en/2.1/topics/testing/tools/#email-services"""
+    
+    Inspired from:
+    https://docs.djangoproject.com/en/2.1/topics/testing/tools/#email-services
+    """
 
     def test_send_email(self):
         # Add user and tv show
