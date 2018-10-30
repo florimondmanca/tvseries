@@ -17,17 +17,28 @@
 <nav>
     <ul class="navbar">
         <li class="tab">
-            <a href="{% url 'search_series' %}" id="active">Search</a>
+            <a href="{% url 'search_series' %}"
+                    {% if 'search' in request.path %}
+                        id="active"
+                    {% endif %}>Search</a>
         </li>
         <li class="tab">
-            <a href="{% url 'followed_series' %}">Favorite shows</a>
+            <a href="{% url 'followed_series' %}"
+            {% if 'followed' in request.path %}
+                        id="active"
+                    {% endif %}>Favorite shows</a>
         </li>
         <li class="tab">
-            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'profile' %}"
+             {% if 'profile' in request.path %}
+                        id="active"
+                    {% endif %}>Profile</a>
         </li>
         <li class="tab">
-            <!--TODO link to about page-->
-            <a href="{% url 'search_series' %}">About</a>
+            <a href="{% url 'about' %}"
+            {% if 'about' in request.path %}
+                        id="active"
+                    {% endif %}>About</a>
         </li>
     </ul>
 </nav>
@@ -46,6 +57,10 @@
 <main>
     {% block content %}{% endblock %}
 </main>
+
+<footer>
+Powered by TheMovieDB
+</footer>
 
 {% block scripts %}{% endblock %}
 </body>

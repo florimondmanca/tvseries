@@ -11,7 +11,6 @@ from typing import List
 
 import requests
 
-from django.conf import settings
 from tmdb.pagination import collect_paginated_results
 from .parsers.shows import ShowParser
 from .datatypes import Show
