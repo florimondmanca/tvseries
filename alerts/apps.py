@@ -18,7 +18,7 @@ class AlertsConfig(AppConfig):
         # Which results in this `ready()` method being called twice.
         # See:
         # https://stackoverflow.com/questions/33814615/how-to-avoid-appconfig-ready-method-running-twice-in-django
-        # We *cannot* use a locksto check whether a worker is already
+        # We *cannot* use a lock to check whether a worker is already
         # running, because this is a multiprocessing issue.
         # As a workaround, deactivate auto-reload:
         # $ python manage.py runserver --noreload
