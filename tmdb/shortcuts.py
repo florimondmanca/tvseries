@@ -2,7 +2,7 @@
 
 from typing import List
 
-from tmdb.client import tmdb_client
+from tmdb.client import get_tmdb_client
 from tmdb.datatypes import Show, Season
 
 
@@ -12,7 +12,7 @@ def search_shows(title: str) -> List[Show]:
     :param title: str
     :return shows: list of Show
     """
-    return tmdb_client.search_show(title)
+    return get_tmdb_client().search_show(title)
 
 
 def retrieve_show(show_id: int) -> Show:
@@ -22,7 +22,7 @@ def retrieve_show(show_id: int) -> Show:
         ID of the show in the TMDB API.
     :return: Show
     """
-    return tmdb_client.retrieve_show(show_id)
+    return get_tmdb_client().retrieve_show(show_id)
 
 
 def retrieve_season(show_id: int, number: int) -> Season:
@@ -35,4 +35,4 @@ def retrieve_season(show_id: int, number: int) -> Season:
         Not checked to be within the range of existing season.
     :return season: Season
     """
-    return tmdb_client.retrieve_season(show_id, number)
+    return get_tmdb_client().retrieve_season(show_id, number)
