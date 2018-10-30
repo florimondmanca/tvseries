@@ -1,5 +1,6 @@
 """Views for series app."""
-from typing import Optional
+import json
+from typing import Union, Optional
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
@@ -95,14 +96,29 @@ class FollowedSeriesView(LoginRequiredMixin, ListView):
         return APIShow.objects.filter(followers=self.request.user)
 
 
-class APISubscribe(View):
+class APILoginRequiredMixin(LoginRequiredMixin):
+
+    def handle_no_permission(self):
+        """Return a 401 Unauthorized error (JSON) if no credentials were passed.
+
+        The default behavior would have been to redirect to the login page
+        or return an HTML 403 response.
+        """
+        return HttpResponse(
+            status=401,
+            content_type='application/json',
+            content=json.dumps({'error': 'Credentials not provided.'})
+        )
+
+
+class APISubscribe(APILoginRequiredMixin, View):
     """View called when a user subscribes or unsubscribes to a new show."""
 
     def post(self, request, show_id: int):
-        """Called when a POST request is made to subscribe the user to the show
-        Adds the user to the followers list of the show
+        """Called when a POST request is made.
 
-        """
+        Subscribe the user to the show: add them to the show's list of
+        followers."""
         try:
             show = APIShow.objects.get(id=show_id)
         except APIShow.DoesNotExist:
@@ -111,12 +127,13 @@ class APISubscribe(View):
         return HttpResponse(200)
 
     def delete(self, request, show_id: int):
-        """Called when a DELETE request is made to unsubscribe the user from the show
-        Removes the user from the followers list of the show
+        """Called when a DELETE request is made.
 
-        """
+        Unsubscribe the user from the show: removes them from the show's
+        list of the followers."""
         show = APIShow.objects.filter(id=show_id).first()
-        show.followers.remove(request.user)
+        if show is not None:
+            show.followers.remove(request.user)
         return HttpResponse(200)
 
 
