@@ -1,7 +1,7 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 
+from alerts.notifications import EmailNotifier
 from .models import APIShow
-from alerts.jobs import AiringShowsJob
 
 
 @admin.register(APIShow)
@@ -13,8 +13,12 @@ class APIShowAdmin(admin.ModelAdmin):
     actions = ['email_followers']
 
     def email_followers(self, request, queryset):
-        notifier = AiringShowsJob()
+        notifier = EmailNotifier()
+        num_emails = 0
         for show in queryset:
-            notifier.notify_followers(show)
+            for user in show.followers.all():
+                notifier.notify(user, show)
+            num_emails += show.followers.count()
+        messages.success(request, f'Successfully sent {num_emails} alerts')
 
     email_followers.short_description = "Email followers of selected shows"
