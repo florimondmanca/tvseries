@@ -26,6 +26,7 @@ class BaseSignupTest:
                 'username': 'johndoe',
                 'password1': 'onions88',
                 'password2': 'onions88',
+                'email': 'johndoe@example.net',
                 **kwargs,
             }
             response = self.client.post(self.__SIGNUP_PAGE_URL, data)
