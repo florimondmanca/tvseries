@@ -36,7 +36,7 @@ li {
 }
 
 .follower-count-container {
-    color: orange;
+    color: var(--color-primary);
 }
 
 #season-nav {
