@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from django.test import TestCase
 
-
 User = get_user_model()
 
 
@@ -15,7 +14,6 @@ class BaseSignupTest:
     """
 
     class TestCase(TestCase):
-
         __SIGNUP_PAGE_URL = '/accounts/signup/'
 
         def _visit_signup(self):
@@ -26,6 +24,7 @@ class BaseSignupTest:
                 'username': 'johndoe',
                 'password1': 'onions88',
                 'password2': 'onions88',
+                'email': 'johndoe@example.net',
                 **kwargs,
             }
             response = self.client.post(self.__SIGNUP_PAGE_URL, data)
@@ -40,13 +39,18 @@ class TestSignup(BaseSignupTest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_user_can_fill_signup_form(self):
-        self._signup(username='johndoe')
+        self._signup()
         self.assertTrue(User.objects.filter(username='johndoe').exists())
 
     def test_user_is_redirected_to_home_after_signup(self):
         response = self._signup()
         self.assertIsInstance(response, HttpResponseRedirect)
         self.assertEqual(response.url, '/')
+
+    def test_email_is_required(self):
+        response = self._signup(email=None)
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(User.objects.filter(username='johndoe').exists())
 
 
 class TestNonMatchingPasswordsSignup(BaseSignupTest.TestCase):
