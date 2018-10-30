@@ -3,7 +3,6 @@
 from typing import List
 
 from tmdb.client import get_tmdb_client
-from tmdb.client import tmdb_client
 from tmdb.datatypes import Show, Season
 
 
