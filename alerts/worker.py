@@ -1,13 +1,13 @@
 """Long-running worker that executes alerting jobs."""
 import logging
 import threading
+from datetime import time, timedelta, datetime
 from time import sleep
 
 from django.utils import timezone
-from datetime import time, timedelta, datetime
-from . import settings
 
 from alerts.jobs import AiringShowsJob
+from . import settings
 
 
 class AlertsWorker(threading.Thread):
