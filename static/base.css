@@ -2,8 +2,10 @@
 
 :root {
     --color-primary: #fdda4e;
+    --color-primary-darker: #ffe670;
     --color-accent: #ef2734;
     --color-bg-light: lightyellow;
+    --color-button-default: #ccc;
 }
 
 body, html {
@@ -26,31 +28,25 @@ a:hover {
     color: var(--color-accent);
 }
 
-header {
-    font-family: "Courier New", monospace;
-    font-size: 15px;
+nav {
     display: grid;
-    grid-gap: 10px;
-    width: 200px;
+    grid-template-areas: "brand links .";
+    grid-template-columns: 5em 1fr 5em;
+    width: 100%;
 }
 
-header .right {
-    grid-column: 2;
-    grid-row: 1;
-    width: 150px;
-    text-align: justify;
-    vertical-align: auto;
+nav #brand {
+    grid-area: brand;
 }
 
-header .left {
-    grid-column: 1;
-    grid-row: 1;
-    width: 100px;
-    text-align: right;
-    vertical-align: middle;
+nav #brand img {
+    width: 100%;
+    height: auto;
 }
 
 ul.navbar {
+    grid-area: links;
+    display: inline-block;
     text-align: center;
     text-transform: uppercase;
     list-style-type: none;
@@ -89,4 +85,36 @@ footer {
     margin-top: 1rem;
     border-top: gray 1px solid;
     text-align: center;
+}
+
+button, input[type="submit"] {
+    display: inline-flex;
+    justify-content: center;
+    position: relative;
+    white-space: nowrap;
+    text-decoration: none;
+    line-height: 1;
+    padding: .5em 1em;
+    border-radius: 3px;
+    font-size: inherit;
+    outline: inherit;
+    border: none;
+    cursor: pointer;
+    background: lightgray;
+    background: var(--color-primary);
+    color: var(--color-accent);
+}
+
+button:hover, input[type="submit"]:hover {
+    background: var(--color-primary-darker);
+}
+
+input, input[type="text"] {
+    outline: none;
+    border: 1px solid lightgray;
+    font-size: inherit;
+    padding: .5em 1em;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }

@@ -1,11 +1,21 @@
 {% extends 'series/base.html' %}
 {% load static %}
 
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'series/search_series.css' %}">
+{% endblock %}
+
 {% block content %}
-    <h1>Search</h1>
+
+    <div id="header">
+        <h1>UpTV</h1>
+        <h2>Never miss on your favorite shows!</h2>
+    </div>
 
     <form method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Search">
+        <input id="search-field" type="search" required autofocus placeholder="Enter a show title…" name="search_term">
+        <button id="submit" class="accent" type="submit">Search shows</button>
     </form>
 {% endblock %}

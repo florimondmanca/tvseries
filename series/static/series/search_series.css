@@ -1,0 +1,30 @@
+form {
+    max-width: 40em;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    margin: 4em auto 7em;
+}
+
+form input#search-field {
+    width: 100%;
+    padding: 1em 1em;
+}
+
+form button#submit {
+    margin: 1em auto;
+}
+
+#header {
+    text-align: center;
+    margin-top: 3em;
+}
+
+#header img {
+    max-width: 100%;
+    height: auto;
+}
+
+#header p {
+
+}

@@ -15,6 +15,11 @@
 </head>
 <body>
 <nav>
+    <div id="brand">
+        <a href="{% url 'index' %}">
+            <img src="{% static 'series/uptv_logo.png' %}">
+        </a>
+    </div>
     <ul class="navbar">
         <li class="tab">
             <a href="{% url 'search_series' %}"
@@ -53,17 +58,6 @@
         </li>
     </ul>
 </nav>
-
-<header>
-    <div class="left">
-        <img src="{% static 'series/uptv_logo.png' %}">
-    </div>
-    <div class="right">
-        <span>Never miss on</span> <br/>
-        <span>your favorite</span> <br/>
-        <span id="show-brand">shows</span>
-    </div>
-</header>
 
 <main>
     {% block content %}{% endblock %}
