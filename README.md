@@ -7,8 +7,8 @@
 
 Never miss on your favorite TV show's new episodes! :boom:
 
-##Production
-The application is available on [https://uptv.herokuapp.com/](https://uptv.herokuapp.com/). Sign up to start subscribing to TV shows and getting notifications for latest episodes !
+## Production
+The application is available on https://uptv.herokuapp.com/. Sign up to start subscribing to TV shows and getting notifications for the latest episodes!
 
 ## Install
 
