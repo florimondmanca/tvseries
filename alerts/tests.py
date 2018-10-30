@@ -27,3 +27,5 @@ class EmailTest(TestCase):
         # Verify that the subject of the first message is correct.
         self.assertEqual(mail.outbox[0].subject, notifier.get_subject())
 
+        # Verify that the body of the first message is correct.
+        self.assertEqual(mail.outbox[0].body, notifier._get_full_content(show))  # Private but just for the test
