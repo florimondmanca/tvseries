@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'form-page.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="form-page">
+        <h1>
+            {% block title %}Form title{% endblock %}
+        </h1>
+        {% block form %}{% endblock %}
+    </section>
+{% endblock %}
