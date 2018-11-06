@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 from django.core import mail
 from django.test import TestCase
+from django.utils.html import strip_tags
 from django.utils.timezone import now
 
 from alerts.worker import AlertsWorker
@@ -32,10 +33,11 @@ class EmailTest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
 
         # Verify that the subject of the first message is correct.
-        self.assertEqual(mail.outbox[0].subject, notifier.get_subject())
+        self.assertEqual(mail.outbox[0].subject, notifier.get_subject(show))
 
         # Verify that the body of the first message is correct.
-        self.assertEqual(mail.outbox[0].body, notifier._get_full_content(show))  # Private but just for the test
+        expected_body = strip_tags(notifier.get_html_message(user, show))
+        self.assertEqual(mail.outbox[0].body, expected_body)
 
 
 class NextRunTest(TestCase):
