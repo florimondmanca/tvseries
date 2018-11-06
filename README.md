@@ -123,7 +123,7 @@ Here are the techniques we used to build UpTV:
 - **Object Oriented Programming** (OOP) in Python: API client, API parsers, API data representation, notifiers…
 - **Threads**: alerts worker running in the background.
 - **Consuming a REST API**: the TheMovieDB API.
-- **Providing REST API endpoints**: `POST /api/subscription`, `DELETE /api/subscription`.
+- **Providing REST API endpoints**: `POST /api/subscribe/:show_id`, `DELETE /api/subscribe/:show_id`.
 - **Client-server architecture**.
 - Web application development using Django.
 - HTML/CSS/JS web development.
