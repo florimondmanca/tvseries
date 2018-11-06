@@ -17,4 +17,3 @@ staticfiles/
 
 # Private environment variables
 .env
-copy-to-dotenv.txt
