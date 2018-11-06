@@ -5,13 +5,25 @@
 [![Django](https://img.shields.io/badge/django-2.1-blue.svg?style=flat-square)](https://www.djangoproject.com)
 [![API](https://img.shields.io/badge/api_provider-tmdb-orange.svg?style=flat-square)](https://www.themoviedb.org/documentation/api)
 
-Never miss on your favorite TV show's new episodes! :boom:
+**Never miss on your favorite TV show's new episodes!**
+
+![UpTV demo](https://media.giphy.com/media/YBbHLigLZfdDmFKIw9/giphy.gif)
+
+## Contents
+
+- [Production](#production)
+- [Install](#install)
+- [Quick start](#quickstart)
+- [Settings](#settings)
+- [Features](#features)
+- [Techniques](#techniques)
+- [Contributing](#contributing)
 
 ## Production
 
 The application is available at https://uptv.herokuapp.com/.
 
-Sign up to start subscribing to TV shows and getting notifications for the latest episodes!
+Sign up to start subscribing to TV shows and receive email alerts for the latest episodes!
 
 ## Install
 
@@ -84,6 +96,47 @@ The following settings are available and can be defined in your `.env` file:
 - `ALERTS_FORCE_EMAIL` (default: `False`): whether to force the alerts worker to deliver emails in development. If `False`, emails will not be delivered (useful for local testing). This setting has no effect in production mode.
 - `ALERTS_RUN_TIME` (default: `08:00:00`): `hh:mm:ss` string representing the run time of the alerts worker.
 
+## Features
+
+Here's what UpTV can do for you:
+
+- Search for TV shows you'd be interested in.
+- Mark a show as a favorite.
+- Manage your list of favorite shows.
+- Look up episodes and read their summaries.
+- Receive daily alerts for new episodes.
+
+It also features:
+
+- An intuitive design and minimal graphic charter.
+- Account signup and profile management.
+- Smart search capabilities.
+- Email alerts.
+- Display of last and next episode for each show.
+- Count of followers.
+- Sign up for an account.
+
+## Techniques
+
+Here are the techniques we used to build UpTV:
+
+- **Object Oriented Programming** (OOP) in Python: API client, API parsers, API data representation, notifiers…
+- **Threads**: alerts worker running in the background.
+- **Consuming a REST API**: the TheMovieDB API.
+- **Providing REST API endpoints**: `POST /api/subscription`, `DELETE /api/subscription`.
+- **Client-server architecture**.
+- Web application development using Django.
+- HTML/CSS/JS web development.
+- Integration with third-party libraries.
+- Definition, usage and management of a SQL database (SQLite, Postgres)
+- OOP in JavaScript (e.g. `series/static/series/counter.js`).
+- Deployment to production using Heroku.
+- Containerization using Docker.
+- Collaborative development using GitHub, Pull Requests and Trello.
+- Automated testing of critical features.
+- CI/CD using TravisCI (test execution and automated deployments on `git push`).
+- Sending emails via a third-party web service (SendGrid).
+
 ## Contributing
 
 - Create a branch, e.g. `feature/awesome-feature` or `fix/very-nasty-bug`.
@@ -92,11 +145,3 @@ The following settings are available and can be defined in your `.env` file:
 - [Open a Pull Request](https://github.com/florimondmanca/uptv/compare): document the changes and provide any useful additional context.
 - Ask someone to review your code. 🔎🤝
 - When ready and tests pass: merge it!
-
-### Conventions
-
-These are conventions we recommend to apply throughout the project. They are being updated as we agree upon new conventions.
-
-#### View names
-
-Use underscore-separated view names: `search_series` instead of `search-series`.
