@@ -1,6 +1,10 @@
 from django.core.mail import send_mail
-from users.models import User
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 from series.models import APIShow
+from users.models import User
+from . import settings
 
 
 class NotificationBackend:
@@ -12,24 +16,30 @@ class NotificationBackend:
 
 class EmailNotifier(NotificationBackend):
     """Notifications with emails."""
-    _subject = 'A new episode arrives today !'
-    _basic_content = 'Today, a new episode of : '
-    _mail_from = 'new_series@uptv.com'
+
+    def get_subject(self, show: APIShow) -> str:
+        return f'{show.title}: new episodes airing today'
+
+    @property
+    def mail_from(self) -> str:
+        return settings.MAIL_FROM
+
+    def get_html_message(self, user: User, show: APIShow) -> str:
+        """Return the HTML contents of an email alert."""
+        context = {
+            'user': user,
+            'show': show,
+        }
+        return render_to_string('alerts/alert.html', context=context)
 
     def notify(self, user: User, show: APIShow):
+        html = self.get_html_message(user, show)
+        message = strip_tags(html)
         send_mail(
-            self._subject,
-            self._get_full_content(show),
-            self._mail_from,
-            [user.email],
+            subject=self.get_subject(show),
+            message=message,
+            html_message=html,
+            from_email=self.mail_from,
+            recipient_list=[user.email],
             fail_silently=False,
         )
-
-    def _get_full_content(self, show: APIShow):
-        """Create the full content of an email."""
-        mail_content = self._basic_content
-        mail_content += show.title
-        return mail_content
-
-    def get_subject(self):
-        return self._subject
