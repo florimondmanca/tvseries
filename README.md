@@ -5,10 +5,9 @@
 [![Django](https://img.shields.io/badge/django-2.1-blue.svg?style=flat-square)](https://www.djangoproject.com)
 [![API](https://img.shields.io/badge/api_provider-tmdb-orange.svg?style=flat-square)](https://www.themoviedb.org/documentation/api)
 
-<div style="text-align: center">
-<h3>Never miss on your favorite TV shows' new episodes!</h3>
-<img src="https://media.giphy.com/media/YBbHLigLZfdDmFKIw9/giphy.gif">
-</div>
+**Never miss on your favorite TV shows' new episodes!**
+
+![](https://media.giphy.com/media/3htQAxLRaQtLA6N9Pr/giphy.gif)
 
 ## Contents
 
