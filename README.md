@@ -17,6 +17,7 @@
 - [Settings](#settings)
 - [Features](#features)
 - [Techniques](#techniques)
+- [Test notifications](#test-notifications)
 - [Contributing](#contributing)
 
 ## Production
@@ -137,6 +138,10 @@ Here are the techniques we used to build UpTV:
 - Automated testing of critical features.
 - CI/CD using TravisCI (test execution and automated deployments on `git push`).
 - Sending emails via a third-party web service (SendGrid).
+
+## Test notifications
+
+Administrators can send notifications manually, regardless of the release date of the next episode. On the admin platform https://uptv.herokuapp.com/admin/, go to the `Api shows` section. Select a show, choose the `Email followers of selected shows` actions and hit `Go`. All followers of the show will then receive an email alert. Please be patient as it make take up to 15 minutes to receive the email.
 
 ## Contributing
 
