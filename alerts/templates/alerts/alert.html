@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New episodes</title>
+</head>
+<body>
+<p>
+    Hi {{ user.first_name }},
+</p>
+<p>
+    Hooray! New episodes of
+    <a href="https://uptv.herokuapp.com/tvshow/{{ show.id }}">{{ show.title }}</a>
+    are airing today. 📺🎉
+</p>
+<p>
+    Have a wonderful day,
+    <br>
+    The UpTV team
+</p>
+<hr>
+<p>
+    This email was sent to {{ user.email }} by <a href="https://uptv.herokuapp.com">UpTV</a>.
+</p>
+</body>
+</html>
