@@ -7,7 +7,7 @@
 
 **Never miss on your favorite TV shows' new episodes!**
 
-![](https://media.giphy.com/media/3htQAxLRaQtLA6N9Pr/giphy.gif)
+![](docs/demo.gif)
 
 ## Contents
 
