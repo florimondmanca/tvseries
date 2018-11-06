@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import HttpResponseRedirect
@@ -11,7 +12,9 @@ class SignUpView(CreateView):
     model = User
     form_class = SignUpForm
     template_name = 'users/signup.html'
-    success_url = '/'
+
+    def get_success_url(self) -> str:
+        return reverse('login')
 
 
 class ProfileView(LoginRequiredMixin, UpdateView):
