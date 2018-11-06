@@ -17,3 +17,6 @@ staticfiles/
 
 # Private environment variables
 .env
+
+# Secrets
+credentials.txt
