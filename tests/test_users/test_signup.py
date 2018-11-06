@@ -42,10 +42,10 @@ class TestSignup(BaseSignupTest.TestCase):
         self._signup()
         self.assertTrue(User.objects.filter(username='johndoe').exists())
 
-    def test_user_is_redirected_to_home_after_signup(self):
+    def test_user_is_redirected_to_login_after_signup(self):
         response = self._signup()
         self.assertIsInstance(response, HttpResponseRedirect)
-        self.assertEqual(response.url, '/')
+        self.assertEqual(response.url, '/accounts/login/')
 
     def test_email_is_required(self):
         response = self._signup(email=None)
