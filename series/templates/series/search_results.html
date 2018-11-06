@@ -9,13 +9,20 @@
 
 {% block content %}
     <h1>Search Results for : {{ search_term }}</h1>
-    <section class="boxes">
-        {% for show in shows_list %}
-            <a href="{% url 'show_details' id=show.id %}" class="box">
-                <img src="{{ show.small_logo_path }}"/>
-                <br>
-                {{ show.title }}
-            </a>
-        {% endfor %}
-    </section>
+    {% if shows_list %}
+        <section class="boxes">
+            {% for show in shows_list %}
+                <a href="{% url 'show_details' id=show.id %}" class="box">
+                    <img src="{{ show.small_logo_path }}"/>
+                    <br>
+                    {{ show.title }}
+                </a>
+            {% endfor %}
+        </section>
+    {% else %}
+        <p class="text-center">
+            No shows found here! 😔
+            Do you want to <a href="{% url 'index' %}">make another search</a>?
+        </p>
+    {% endif %}
 {% endblock %}
