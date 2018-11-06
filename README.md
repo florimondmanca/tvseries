@@ -101,10 +101,10 @@ The following settings are available and can be defined in your `.env` file:
 Here's what UpTV can do for you:
 
 - Search for TV shows you'd be interested in.
-- Mark a show as a favorite.
+- **Mark a show as a favorite**.
 - Manage your list of favorite shows.
-- Look up episodes and read their summaries.
-- Receive daily alerts for new episodes.
+- **Look up episodes and read their summaries**.
+- **Receive daily alerts for new episodes**.
 
 It also features:
 
