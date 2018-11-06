@@ -139,7 +139,8 @@ Here are the techniques we used to build UpTV:
 - Sending emails via a third-party web service (SendGrid).
 
 ## Test notifications
-if you have an account with admin rights, you can send notifications by hand, regardless of the release date of the next episode. On the admin platform https://uptv.herokuapp.com/admin/ go to the `Api shows` database. Select a show, choose the action `Email followers of selected shows` and hit `Go`. All followers of the show will then receive the email notification. Be patient as it make take up to 15 minutes to receive the email.
+
+Administrators can send notifications manually, regardless of the release date of the next episode. On the admin platform https://uptv.herokuapp.com/admin/, go to the `Api shows` section. Select a show, choose the `Email followers of selected shows` actions and hit `Go`. All followers of the show will then receive an email alert. Please be patient as it make take up to 15 minutes to receive the email.
 
 ## Contributing
 
