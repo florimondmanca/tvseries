@@ -4,6 +4,7 @@
     --color-primary: #fdda4e;
     --color-primary-darker: #ffe670;
     --color-accent: #ef2734;
+    --color-accent-dark: #7f1d23;
     --color-bg-light: lightyellow;
     --color-button-default: #ccc;
 }
@@ -15,13 +16,13 @@ body, html {
 }
 
 a {
-    color: inherit;
+    color: var(--color-accent-dark);
     text-decoration: none;
     font-weight: bold;
 }
 
 a:visited {
-    color: inherit;
+    color: var(--color-accent-dark);
 }
 
 a:hover {
