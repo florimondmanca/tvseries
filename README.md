@@ -17,6 +17,7 @@
 - [Settings](#settings)
 - [Features](#features)
 - [Techniques](#techniques)
+- [Test Notifications](#test-notifications)
 - [Contributing](#contributing)
 
 ## Production
