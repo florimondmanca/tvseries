@@ -5,9 +5,10 @@
 [![Django](https://img.shields.io/badge/django-2.1-blue.svg?style=flat-square)](https://www.djangoproject.com)
 [![API](https://img.shields.io/badge/api_provider-tmdb-orange.svg?style=flat-square)](https://www.themoviedb.org/documentation/api)
 
-**Never miss on your favorite TV show's new episodes!**
-
-![UpTV demo](https://media.giphy.com/media/YBbHLigLZfdDmFKIw9/giphy.gif)
+<div style="text-align: center">
+<h3>Never miss on your favorite TV shows' new episodes!</h3>
+<img src="https://media.giphy.com/media/YBbHLigLZfdDmFKIw9/giphy.gif">
+</div>
 
 ## Contents
 
